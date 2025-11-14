@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerMovement : MonoBehaviour
 {
-    public delegate void IsMovingEvent(bool value);
+    public delegate void IsMovingEvent(bool value, float speed);
     public event IsMovingEvent IsMoving;
 
     Rigidbody rb;
@@ -16,6 +16,9 @@ public class PlayerMovement : MonoBehaviour
     float movementSpeed;
 
     Vector3 movementValue;
+
+    [SerializeField]
+    float maxSpeed;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -29,6 +32,7 @@ public class PlayerMovement : MonoBehaviour
         if(isMoving)
         {
             rb.AddRelativeForce(movementSpeed * movementValue);
+            rb.linearVelocity = new(Mathf.Clamp(rb.linearVelocity.x, -maxSpeed, maxSpeed), rb.linearVelocity.y, Mathf.Clamp(rb.linearVelocity.z, -maxSpeed, maxSpeed));
         }
     }
 
@@ -41,13 +45,14 @@ public class PlayerMovement : MonoBehaviour
         if (context.started)
         {
             isMoving = true;
-            IsMoving?.Invoke(isMoving);
+            IsMoving?.Invoke(isMoving, rb.linearVelocity.x);
         }
         if (context.canceled)
         {
             isMoving = false;
-            IsMoving?.Invoke(isMoving);
+            IsMoving?.Invoke(isMoving, rb.linearVelocity.x);
             rb.linearVelocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
         }
 
     }

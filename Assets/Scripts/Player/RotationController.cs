@@ -5,8 +5,8 @@ public class RotationController : MonoBehaviour
     PlayerMovement playerMovement;
     Transform playerTransform;
 
-    CameraControls cameraControls;
-    Transform cameraTransform;
+    CameraControls cameraParentControls;
+    Transform cameraParentTransform;
 
     bool playerIsMoving = false;
     bool cameraIsMoving = false;    
@@ -16,32 +16,45 @@ public class RotationController : MonoBehaviour
         playerMovement = GetComponent<PlayerMovement>();
         playerTransform = playerMovement.transform;
 
-        cameraControls = GameObject.FindGameObjectWithTag("CameraParent").GetComponent<CameraControls>();
-        cameraTransform = cameraControls.transform;
+        cameraParentControls = GameObject.FindGameObjectWithTag("CameraParent").GetComponent<CameraControls>();
+        cameraParentTransform = cameraParentControls.transform;
     }
 
     void OnEnable()
     {
         playerMovement.IsMoving += PlayerIsMoving;
-        cameraControls.IsMoving += CameraIsMoving;
+        cameraParentControls.IsMoving += CameraIsMoving;
     }
     void OnDisable()
     {
         playerMovement.IsMoving -= PlayerIsMoving;
-        cameraControls.IsMoving -= CameraIsMoving;
+        cameraParentControls.IsMoving -= CameraIsMoving;
     }
 
     // Update is called once per frame
     void Update()
     {
+        Quaternion targetRotation = Quaternion.Euler(
+            0f,
+            transform.eulerAngles.y,
+            0f
+        );
+        float yRotation = cameraParentTransform.transform.rotation.eulerAngles.y;
+
+        if (playerIsMoving && !cameraIsMoving)
+        {
+            playerTransform.rotation = Quaternion.Euler(0, yRotation, 0);
+            //playerTransform.forward = cameraTransform.forward;
+        }
         if (playerIsMoving && cameraIsMoving) 
         {
-            playerTransform.forward = cameraTransform.forward;
+            playerTransform.rotation = Quaternion.Euler(0, yRotation, 0);
+            //playerTransform.forward = cameraTransform.forward;            
             return;
         }
     }
 
-    void PlayerIsMoving(bool value)
+    void PlayerIsMoving(bool value, float speed)
     {
         playerIsMoving = value;
     }
