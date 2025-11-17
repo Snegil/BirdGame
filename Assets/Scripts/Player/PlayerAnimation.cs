@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
@@ -23,16 +22,8 @@ public class PlayerAnimation : MonoBehaviour
         playerMovement.IsMoving -= PlayerMovementAnimation;
     }
 
-    void PlayerMovementAnimation(bool value, float speed)
+    void PlayerMovementAnimation(bool value, Vector3 speed)
     {
         animator.SetBool("IsMoving", value);
-        if (value)
-        {
-            animator.speed = MathF.Abs(speed);
-        }
-        else
-        {
-            animator.speed = 1;
-        }        
     }
 }

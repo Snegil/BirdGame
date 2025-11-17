@@ -1,59 +1,95 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(GroundCheck))]
 public class PlayerMovement : MonoBehaviour
 {
-    public delegate void IsMovingEvent(bool value, float speed);
+    public delegate void IsMovingEvent(bool value, Vector3 speed);
     public event IsMovingEvent IsMoving;
 
-    Rigidbody rb;
-
-    bool canMove = true;
+    [SerializeField]
     bool isMoving = false;
+    [SerializeField]
+    bool isJumping = false;
+
+    GroundCheck groundCheck;
+    [SerializeField]
+    float groundCheckDistance;
+    bool grounded = false;
 
     [SerializeField]
     float movementSpeed;
-
+    [SerializeField]
+    float jumpPower = 2;
+    
     Vector3 movementValue;
 
     [SerializeField]
     float maxSpeed;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [SerializeField]
+    float gravity = 9.8f;
+
     void Start()
     {
-        rb = GetComponent<Rigidbody>();       
+        groundCheck = GetComponent<GroundCheck>();
     }
-
+    
     // Update is called once per frame
     void Update()
     {
+        //grounded = groundCheck.GroundedCheck(groundCheckDistance);
+
+        if (!groundCheck.GroundedCheck(groundCheckDistance) && !isJumping)
+        {
+            HandleGravity();            
+        }
         if(isMoving)
         {
-            rb.AddRelativeForce(movementSpeed * movementValue);
-            rb.linearVelocity = new(Mathf.Clamp(rb.linearVelocity.x, -maxSpeed, maxSpeed), rb.linearVelocity.y, Mathf.Clamp(rb.linearVelocity.z, -maxSpeed, maxSpeed));
+            transform.Translate(movementSpeed * Time.deltaTime * movementValue);
+        }
+        if (isJumping)
+        {
+            Jump();
         }
     }
 
-    public void Movement(InputAction.CallbackContext context)
+    void HandleGravity()
+    {
+        transform.Translate(0, -gravity * Time.deltaTime, 0);
+    }
+
+    public void MovementInput(InputAction.CallbackContext context)
     {
         movementValue = context.ReadValue<Vector3>();
-
-        if (canMove == false) return;
 
         if (context.started)
         {
             isMoving = true;
-            IsMoving?.Invoke(isMoving, rb.linearVelocity.x);
+            IsMoving?.Invoke(isMoving, movementValue);
         }
         if (context.canceled)
         {
             isMoving = false;
-            IsMoving?.Invoke(isMoving, rb.linearVelocity.x);
-            rb.linearVelocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
+            IsMoving?.Invoke(isMoving, movementValue);
         }
+    }
+    public void JumpInput(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            isJumping = true;
+        }
+        if (context.canceled)
+        {
+            isJumping = false;
+        }
+    }
 
+    void Jump()
+    {
+        //transform.Translate(0, jumpPower * Time.deltaTime, 0);
+        transform.position = new Vector3(transform.position.x, jumpPower, transform.position.z);
     }
 }
