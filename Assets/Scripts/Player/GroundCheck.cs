@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class GroundCheck : MonoBehaviour
 {
@@ -15,7 +14,10 @@ public class GroundCheck : MonoBehaviour
     }
     public bool GroundedCheck(float length = -20f)
     {
-        if (length == -20f) { length = distance; }
+        if (length == -20f)
+        {
+            length = distance;
+        }
 
         if(Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, length, layerMask))
         {

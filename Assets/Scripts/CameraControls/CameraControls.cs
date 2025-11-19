@@ -3,9 +3,6 @@ using UnityEngine.InputSystem;
 
 public class CameraControls : MonoBehaviour
 {
-    public delegate void IsMovingEvent(bool value);
-    public event IsMovingEvent IsMoving;
-
     float sensitivity;
 
     [SerializeField]
@@ -14,72 +11,88 @@ public class CameraControls : MonoBehaviour
     float controllerSensitivity = 20f;
 
     [SerializeField]
-    float rotationLimitX;
+    float timeUntilFollow = 5f;
+    float setTimeUntilFollow;
+
+    [SerializeField, Header("Set the max rotation for the Y axis\nX = MIN, Y = MAX")]
+    Vector2 rotationLimitY;
     [SerializeField]
-    float rotationLimitY;
+    float autoRotYTarget = -9;
+    float autoRotX;
+
+    [SerializeField]
+    float lerpSpeed = 2;
 
     Vector2 mouseDelta;
 
     float totalRotX = 0;
     float totalRotY = 0;
 
+    bool cameraMoving = false;
+
     [SerializeField]
-    Rigidbody rb;
+    Transform player;
 
-    bool isMoving = false;
-
+    [SerializeField]
+    PlayerController playerController;
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         sensitivity = mouseSensitivity;
+        setTimeUntilFollow = timeUntilFollow;
     }
-
-    // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         totalRotX += mouseDelta.x * sensitivity * Time.deltaTime;
         totalRotY += mouseDelta.y * sensitivity * Time.deltaTime;
+        totalRotY = Mathf.Clamp(totalRotY, rotationLimitY.x, rotationLimitY.y);
 
-        //totalRotX = Mathf.Clamp(totalRotX, -rotationLimitX, rotationLimitX);
-        totalRotY = Mathf.Clamp(totalRotY, -rotationLimitY, rotationLimitY);
+        if (timeUntilFollow > 0)
+        {
+            timeUntilFollow -= Time.deltaTime;    
+        }        
 
-        transform.rotation = Quaternion.Euler(-totalRotY, totalRotX, 0f);
-        if (rb == null) return;
-        rb.rotation = Quaternion.Euler(-totalRotY, totalRotX, 0f);
+        if (cameraMoving)
+        {
+            transform.rotation = Quaternion.Euler(-totalRotY, totalRotX, 0f);
+            timeUntilFollow = setTimeUntilFollow;
+        }
+    }
+    void FixedUpdate()
+    {
+        if (playerController.PlayerState == PlayerStates.Run && cameraMoving)
+        {
+            player.parent.GetComponent<Rigidbody>().rotation = Quaternion.Euler(0, totalRotX, 0f);
+        }
+        if (playerController.PlayerState == PlayerStates.Run && !cameraMoving && timeUntilFollow < 0)
+        {
+            autoRotX = player.rotation.eulerAngles.y;
+            Quaternion autoTargetRot = Quaternion.Euler(autoRotYTarget, autoRotX, 0f);
+            
+            player.parent.GetComponent<Rigidbody>().rotation = Quaternion.Lerp(player.parent.GetComponent<Rigidbody>().rotation, autoTargetRot, Time.deltaTime * lerpSpeed);
+            transform.rotation = Quaternion.Lerp(transform.rotation, player.rotation, Time.deltaTime * lerpSpeed);
+
+            totalRotX = transform.rotation.eulerAngles.y;
+            totalRotY = -transform.rotation.eulerAngles.x;
+        }
     }
 
     public void MouseDelta(InputAction.CallbackContext context)
     {
         if (context.started)
         {
-            isMoving = true;
-            IsMoving?.Invoke(isMoving);
+            cameraMoving = true;
         }
         if (context.canceled)
         {
-            isMoving  = false;
-            IsMoving?.Invoke(isMoving);
+            cameraMoving  = false;
         }
         
-        if (context.control.device is Gamepad)
-        {
-            Debug.Log("CONTROLLER");
-            sensitivity = controllerSensitivity;
-        }
-        else
-        {
-            Debug.Log("MOUSE");
-            sensitivity = mouseSensitivity;
-        }
-
-
+        sensitivity = context.control.device is Gamepad ? controllerSensitivity : mouseSensitivity;
+        Cursor.visible = context.control.device is not Gamepad;
+        Cursor.lockState = context.control.device is Gamepad ? CursorLockMode.None : CursorLockMode.Locked;
 
         mouseDelta = context.ReadValue<Vector2>();
-
-        //totalRotX += mouseDelta.x * mouseSensitivity * Time.deltaTime;
-        //totalRotY += mouseDelta.y * mouseSensitivity * Time.deltaTime;
-
-        //totalRotX = Mathf.Clamp(totalRotX, -rotationLimitX, rotationLimitX);
-        //totalRotY = Mathf.Clamp(totalRotY, -rotationLimitY, rotationLimitY);
     }
 }

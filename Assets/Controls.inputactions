@@ -25,7 +25,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "LockCamera",
+                    "name": "Sprint",
                     "type": "Button",
                     "id": "49c22ff7-e470-46c3-a45a-6b0a67ffd2ab",
                     "expectedControlType": "",
@@ -174,7 +174,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "LockCamera",
+                    "action": "Sprint",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "dbfb0f62-d6b2-4a64-970a-d7eea368d213",
+                    "path": "<Keyboard>/leftShift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Sprint",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

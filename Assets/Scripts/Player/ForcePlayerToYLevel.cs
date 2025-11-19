@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ForcePlayerToYLevel : MonoBehaviour
@@ -21,11 +22,10 @@ public class ForcePlayerToYLevel : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        Debug.DrawRay(transform.position, Vector3.down * GroundCheckDistance, Color.green);
         if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, GroundCheckDistance, layerMask))
         {
-            rb.linearVelocity = new Vector3(0, 0, 0);
-            rb.position = new Vector3(transform.position.x, hit.point.y + GroundCheckDistance, transform.position.z);
+            rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
+            transform.position = new Vector3(transform.position.x, hit.point.y + GroundCheckDistance, transform.position.z);
         }
     }
 }
