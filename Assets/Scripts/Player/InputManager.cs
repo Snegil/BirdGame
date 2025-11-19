@@ -22,10 +22,15 @@ public class InputManager : MonoBehaviour
     }
     void Update()
     {
-        if (hasInput)
+        if (!hasInput) return;
+
+        if (Mathf.Approximately(readValue.z, -1f) && Mathf.Approximately(readValue.x, 0f))
         {
-            sphere.localPosition = new Vector3(readValue.x, 0, readValue.z);    
-        }    
+            readValue.x = -0.05f;
+        }
+
+
+        sphere.localPosition = new Vector3(readValue.x, 0, readValue.z); 
     }
 
     public void Input(InputAction.CallbackContext context)
@@ -35,6 +40,5 @@ public class InputManager : MonoBehaviour
         {
             hasInput = true;
         }
-        
     }
 }

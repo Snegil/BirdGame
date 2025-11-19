@@ -67,14 +67,14 @@ public class CameraControls : MonoBehaviour
         }
         if (playerController.PlayerState == PlayerStates.Run && !cameraMoving && timeUntilFollow < 0)
         {
-            autoRotX = player.rotation.eulerAngles.y;
+            autoRotX = Mathf.DeltaAngle(0, player.rotation.eulerAngles.y);
             Quaternion autoTargetRot = Quaternion.Euler(autoRotYTarget, autoRotX, 0f);
             
             player.parent.GetComponent<Rigidbody>().rotation = Quaternion.Lerp(player.parent.GetComponent<Rigidbody>().rotation, autoTargetRot, Time.deltaTime * lerpSpeed);
             transform.rotation = Quaternion.Lerp(transform.rotation, player.rotation, Time.deltaTime * lerpSpeed);
 
-            totalRotX = transform.rotation.eulerAngles.y;
-            totalRotY = -transform.rotation.eulerAngles.x;
+            totalRotX = Mathf.DeltaAngle(0, transform.rotation.eulerAngles.y);
+            totalRotY = Mathf.DeltaAngle(0, -transform.rotation.eulerAngles.x);
         }
     }
 

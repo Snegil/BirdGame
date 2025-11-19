@@ -245,7 +245,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3a43daf26034dc4886b077ca731a7ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sphere: {fileID: 1400984136}
+  sphere: {fileID: 1916949031387511390}
   playerController: {fileID: 1916949031387511407}
 --- !u!114 &31969145
 MonoBehaviour:
@@ -1003,11 +1003,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 6194678251539672394, guid: 21f06c9ece29e5345bf80bb0bb3b1792, type: 3}
---- !u!4 &1400984136 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 9081600960077893815, guid: 206b6a1f428b8864e8e9e6cc2f1c23c7, type: 3}
-  m_PrefabInstance: {fileID: 1916949031387511389}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1616524296
 GameObject:
   m_ObjectHideFlags: 0
@@ -1247,6 +1242,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 206b6a1f428b8864e8e9e6cc2f1c23c7, type: 3}
+--- !u!4 &1916949031387511390 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 9081600960077893815, guid: 206b6a1f428b8864e8e9e6cc2f1c23c7, type: 3}
+  m_PrefabInstance: {fileID: 1916949031387511389}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1916949031387511392 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7413008079627239624, guid: 206b6a1f428b8864e8e9e6cc2f1c23c7, type: 3}
