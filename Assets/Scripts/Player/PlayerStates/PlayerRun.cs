@@ -27,14 +27,7 @@ public class PlayerRun : MonoBehaviour
             animator.SetTrigger("Movement");
         }
 
-        if (isRunning)
-        {
-            animator.speed = 2;
-        }
-        else
-        {
-            animator.speed = 1;
-        }
+        animator.speed = isRunning ? 2 : Mathf.Clamp(Vector3.Distance(gameObject.transform.position, waypoint.position), 0, 1);
 
         Vector3 movementDirection = waypoint.position - gameObject.transform.position;
         movementDirection.Normalize(); // Normalize the direction vector

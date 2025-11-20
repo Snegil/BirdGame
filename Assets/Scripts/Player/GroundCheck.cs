@@ -10,7 +10,7 @@ public class GroundCheck : MonoBehaviour
 
     void Update() 
     {
-        Debug.DrawRay(transform.position, Vector3.down * distance, Color.green);
+        //Debug.DrawRay(transform.position, Vector3.down * distance, Color.green);
     }
     public bool GroundedCheck(float length = -20f)
     {

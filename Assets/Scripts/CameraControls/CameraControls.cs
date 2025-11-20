@@ -1,3 +1,4 @@
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -58,6 +59,9 @@ public class CameraControls : MonoBehaviour
             transform.rotation = Quaternion.Euler(-totalRotY, totalRotX, 0f);
             timeUntilFollow = setTimeUntilFollow;
         }
+        Debug.DrawRay(player.position, player.forward, Color.yellow);
+        Debug.DrawRay(player.parent.position, player.parent.forward, Color.cyan);
+        Debug.DrawRay(transform.position, transform.forward, Color.magenta);
     }
     void FixedUpdate()
     {
@@ -69,12 +73,18 @@ public class CameraControls : MonoBehaviour
         {
             autoRotX = Mathf.DeltaAngle(0, player.rotation.eulerAngles.y);
             Quaternion autoTargetRot = Quaternion.Euler(autoRotYTarget, autoRotX, 0f);
-            
+
             player.parent.GetComponent<Rigidbody>().rotation = Quaternion.Lerp(player.parent.GetComponent<Rigidbody>().rotation, autoTargetRot, Time.deltaTime * lerpSpeed);
             transform.rotation = Quaternion.Lerp(transform.rotation, player.rotation, Time.deltaTime * lerpSpeed);
 
             totalRotX = Mathf.DeltaAngle(0, transform.rotation.eulerAngles.y);
             totalRotY = Mathf.DeltaAngle(0, -transform.rotation.eulerAngles.x);
+        }
+
+        // TODO: FIX THIS
+        if(Vector3.Dot(player.transform.position.normalized, player.parent.transform.position.normalized) < -0.9)
+        {
+            player.parent.rotation = player.transform.rotation;
         }
     }
 

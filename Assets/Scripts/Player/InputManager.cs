@@ -15,8 +15,6 @@ public class InputManager : MonoBehaviour
 
     void Start()
     {
-        //playerController = GetComponent<PlayerController>();
-
         //THIS IS ONLY FOR THE RARE CASE THAT IT IS NOT ZEROED ONTO THE PLAYER
         sphere.localPosition = Vector3.zero;
     }
