@@ -1115,8 +1115,14 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 98e436e2171d62c48859ac544aceb5bd, type: 2}
+    - target: {fileID: 7108716963708961304, guid: aa2fdcc1720af244a91464d8820950df, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: -8576964752333340113, guid: aa2fdcc1720af244a91464d8820950df, type: 3}
+    - {fileID: 3772208484887091091, guid: aa2fdcc1720af244a91464d8820950df, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: aa2fdcc1720af244a91464d8820950df, type: 3}

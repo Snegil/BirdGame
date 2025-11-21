@@ -43,13 +43,14 @@ public class PlayerController : MonoBehaviour
 
         animator = playerModel.GetComponent<Animator>();
     }
-
+    //TODO: DON'T LEAVE THIS HERE.
+    bool isjumping = false;
     void FixedUpdate()
     {
         Vector3 movementDirection = sphere.position - gameObject.transform.position;
         movementDirection.y = 0; // Set the y component to 0 to prevent vertical movement
         movementDirection.Normalize(); // Normalize the direction vector
-
+        Debug.Log(playerState);
         switch (playerState)
         {
             case PlayerStates.Idle:
@@ -60,7 +61,6 @@ public class PlayerController : MonoBehaviour
                     //playerIdle.ResetIdleSleepTimer(); // Reset the idle sleep timer when transitioning to run
                     return;
                 }
-
                 playerIdle.Idle(playerState, groundCheck, animator);
                 break;
 
@@ -77,27 +77,22 @@ public class PlayerController : MonoBehaviour
                 break;
 
             case PlayerStates.Jump:
-                if (Mathf.Clamp(Vector3.Distance(gameObject.transform.position, sphere.position), 0, 1) > deadZone)
+                if (!isjumping)
                 {
-                    playerState = PlayerStates.Run;
-                    PlayerStateChange?.Invoke(playerState);
-                    //playerIdle.ResetIdleSleepTimer(); // Reset the idle sleep timer when transitioning to run
+                    isjumping = true;
+                    playerJump.Jump(rb, groundCheck, animator, this);    
                 }
-                if (Mathf.Clamp(Vector3.Distance(gameObject.transform.position, sphere.position), 0, 1) < deadZone)
-                {
-                    playerState = PlayerStates.Idle;
-                    PlayerStateChange?.Invoke(playerState);
-                }
-
-                playerJump.Jump(rb, animator);
+                
                 break;
         }
     }
-
+    public void IsJumping(bool value)
+    {
+        isjumping = value;
+    }
     public void JumpInput(InputAction.CallbackContext context)
     {
         if (!context.started || !groundCheck.GroundedCheck(0.1f)) { return; }
-
         playerState = PlayerStates.Jump;
     }
 }
