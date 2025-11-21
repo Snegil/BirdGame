@@ -173,6 +173,7 @@ MonoBehaviour:
   rotationLimitY: {x: -15, y: 70}
   autoRotYTarget: 0
   lerpSpeed: 1
+  autoFollowBackwardsTolerance: -0.8
   player: {fileID: 955699641}
   playerController: {fileID: 1916949031387511407}
 --- !u!114 &31969142

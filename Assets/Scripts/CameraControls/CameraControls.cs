@@ -30,6 +30,8 @@ public class CameraControls : MonoBehaviour
     float totalRotY = 0;
 
     bool cameraMoving = false;
+    [SerializeField]
+    float autoFollowBackwardsTolerance = 0.1f;
 
     [SerializeField]
     Transform player;
@@ -69,7 +71,15 @@ public class CameraControls : MonoBehaviour
         {
             player.parent.GetComponent<Rigidbody>().rotation = Quaternion.Euler(0, totalRotX, 0f);
         }
-        if (playerController.PlayerState == PlayerStates.Run && !cameraMoving && timeUntilFollow < 0)
+        Vector3 camForward = new Vector3(transform.forward.x, 0, transform.forward.z).normalized;
+        Vector3 playerForward = new Vector3(player.forward.x, 0, player.forward.z).normalized;
+
+        float forwardDot = Vector3.Dot(camForward, playerForward);
+
+        // This means "player is running forward relative to camera view"
+        bool movingForwardRelative = forwardDot > autoFollowBackwardsTolerance;
+
+        if (playerController.PlayerState == PlayerStates.Run && !cameraMoving && timeUntilFollow < 0 && movingForwardRelative)
         {
             autoRotX = Mathf.DeltaAngle(0, player.rotation.eulerAngles.y);
             Quaternion autoTargetRot = Quaternion.Euler(autoRotYTarget, autoRotX, 0f);
@@ -79,12 +89,6 @@ public class CameraControls : MonoBehaviour
 
             totalRotX = Mathf.DeltaAngle(0, transform.rotation.eulerAngles.y);
             totalRotY = Mathf.DeltaAngle(0, -transform.rotation.eulerAngles.x);
-        }
-
-        // TODO: FIX THIS
-        if(Vector3.Dot(player.transform.position.normalized, player.parent.transform.position.normalized) < -0.9)
-        {
-            player.parent.rotation = player.transform.rotation;
         }
     }
 
