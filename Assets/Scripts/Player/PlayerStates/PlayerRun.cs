@@ -18,16 +18,17 @@ public class PlayerRun : MonoBehaviour
     [SerializeField]
     float maxSpeed = 10;
 
-    public void Run(PlayerStates playerState, Transform waypoint, Animator animator, GroundCheck groundCheck, GameObject playerModel, Rigidbody rb) 
+    public void Run(PlayerStates playerState, Transform waypoint, Animator animator, GroundCheck groundCheck, GameObject playerModel, Rigidbody rb, bool runAnim) 
     {
         
-        if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Movement"))
+        if (runAnim && !animator.GetCurrentAnimatorStateInfo(0).IsName("Movement"))
         {
-            animator.ResetTrigger("Idle");
             animator.SetTrigger("Movement");
         }
-
-        animator.speed = isRunning ? 2 : Mathf.Clamp(Vector3.Distance(gameObject.transform.position, waypoint.position), 0, 1);
+        if (runAnim)
+        {
+            animator.speed = isRunning ? 2 : Mathf.Clamp(Vector3.Distance(gameObject.transform.position, waypoint.position), 0, 1);    
+        }        
 
         Vector3 movementDirection = waypoint.position - gameObject.transform.position;
         movementDirection.Normalize(); // Normalize the direction vector
@@ -46,7 +47,7 @@ public class PlayerRun : MonoBehaviour
         }   
         rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, maxSpeed);
     }
-
+    
     public void Sprint(InputAction.CallbackContext context) 
     {
         if (context.started)

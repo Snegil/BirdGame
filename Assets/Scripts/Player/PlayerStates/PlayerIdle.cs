@@ -12,7 +12,6 @@ public class PlayerIdle : MonoBehaviour
         }
         if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
         {
-            animator.ResetTrigger("Movement");
             animator.SetTrigger("Idle");
         }
     }

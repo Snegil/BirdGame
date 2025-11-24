@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,6 +11,7 @@ public class PlayerController : MonoBehaviour
     [Space, SerializeField]
     PlayerStates playerState;
     public PlayerStates PlayerState { get { return playerState; } }
+    PlayerStates prevState;
 
     [Space, SerializeField, Header("Deadzone distance from centre of player character:")]
     float deadZone;
@@ -23,6 +23,8 @@ public class PlayerController : MonoBehaviour
     PlayerRun playerRun;
     PlayerJump playerJump;
 
+    bool isjumping = false;
+
     WinterTyre winterTyre;
 
     GroundCheck groundCheck;
@@ -31,6 +33,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     GameObject playerModel;    
     Animator animator;
+
 
     void Start()
     {
@@ -42,15 +45,15 @@ public class PlayerController : MonoBehaviour
         winterTyre = GetComponent<WinterTyre>();
 
         animator = playerModel.GetComponent<Animator>();
+        animator.Update(0f);
+        animator.Update(0f);
     }
-    //TODO: DON'T LEAVE THIS HERE.
-    bool isjumping = false;
     void FixedUpdate()
     {
         Vector3 movementDirection = sphere.position - gameObject.transform.position;
         movementDirection.y = 0; // Set the y component to 0 to prevent vertical movement
         movementDirection.Normalize(); // Normalize the direction vector
-        Debug.Log(playerState);
+
         switch (playerState)
         {
             case PlayerStates.Idle:
@@ -58,7 +61,6 @@ public class PlayerController : MonoBehaviour
                 {
                     playerState = PlayerStates.Run;
                     PlayerStateChange?.Invoke(playerState);
-                    //playerIdle.ResetIdleSleepTimer(); // Reset the idle sleep timer when transitioning to run
                     return;
                 }
                 playerIdle.Idle(playerState, groundCheck, animator);
@@ -71,16 +73,29 @@ public class PlayerController : MonoBehaviour
                     PlayerStateChange?.Invoke(playerState);
                     return;
                 }
-
-                playerRun.Run(playerState, sphere, animator, groundCheck, playerModel, rb);
+                //Last boolean in playerrun.run() is to run animation!
+                playerRun.Run(playerState, sphere, animator, groundCheck, playerModel, rb, true);
                 winterTyre.CustomDamping(rb);
                 break;
 
             case PlayerStates.Jump:
+                playerRun.Run(playerState, sphere, animator, groundCheck, playerModel, rb, false);
+                winterTyre.CustomDamping(rb);
+
+                if (isjumping && groundCheck.GroundedCheck(0.1f))
+                {
+                    IsJumping(false);
+                    playerState = prevState;
+                    playerJump.Land(animator, this);
+                    return;
+                }
+                
+                if (isjumping && !groundCheck.GroundedCheck(0.1f)) return;
+
                 if (!isjumping)
                 {
-                    isjumping = true;
-                    playerJump.Jump(rb, groundCheck, animator, this);    
+                    IsJumping(true);
+                    playerJump.Jump(rb, groundCheck, animator, this);
                 }
                 
                 break;
@@ -93,6 +108,7 @@ public class PlayerController : MonoBehaviour
     public void JumpInput(InputAction.CallbackContext context)
     {
         if (!context.started || !groundCheck.GroundedCheck(0.1f)) { return; }
+        if (prevState != PlayerStates.Jump) prevState = playerState;
         playerState = PlayerStates.Jump;
     }
 }
