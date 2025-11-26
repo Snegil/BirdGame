@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,8 +11,7 @@ public class PlayerController : MonoBehaviour
 
     [Space, SerializeField]
     PlayerStates playerState;
-    public PlayerStates PlayerState { get { return playerState; } }
-    PlayerStates prevState;
+    public bool AllowCamControl { get; set; } = false;
 
     [Space, SerializeField, Header("Deadzone distance from centre of player character:")]
     float deadZone;
@@ -29,11 +29,14 @@ public class PlayerController : MonoBehaviour
 
     GroundCheck groundCheck;
     Rigidbody rb;
-    
-    [SerializeField]
-    GameObject playerModel;    
-    Animator animator;
 
+    [SerializeField]
+    GameObject playerModel;
+    Animator animator;
+    CapsuleCollider playerCollider;
+
+    [SerializeField]
+    List<GameObject> wheels = new();
 
     void Start()
     {
@@ -43,6 +46,7 @@ public class PlayerController : MonoBehaviour
         groundCheck = GetComponent<GroundCheck>();
         rb = GetComponent<Rigidbody>();
         winterTyre = GetComponent<WinterTyre>();
+        playerCollider = GetComponent<CapsuleCollider>();
 
         animator = playerModel.GetComponent<Animator>();
         animator.Update(0f);
@@ -63,6 +67,7 @@ public class PlayerController : MonoBehaviour
                     PlayerStateChange?.Invoke(playerState);
                     return;
                 }
+                AllowCamControl = false;
                 playerIdle.Idle(playerState, groundCheck, animator);
                 break;
 
@@ -73,23 +78,25 @@ public class PlayerController : MonoBehaviour
                     PlayerStateChange?.Invoke(playerState);
                     return;
                 }
+                AllowCamControl = true;
                 //Last boolean in playerrun.run() is to run animation!
                 playerRun.Run(playerState, sphere, animator, groundCheck, playerModel, rb, true);
                 winterTyre.CustomDamping(rb);
                 break;
 
             case PlayerStates.Jump:
+                AllowCamControl = true;
                 playerRun.Run(playerState, sphere, animator, groundCheck, playerModel, rb, false);
                 winterTyre.CustomDamping(rb);
 
                 if (isjumping && groundCheck.GroundedCheck(0.1f))
                 {
                     IsJumping(false);
-                    playerState = prevState;
+                    playerState = PlayerStates.Idle;
                     playerJump.Land(animator, this);
                     return;
                 }
-                
+
                 if (isjumping && !groundCheck.GroundedCheck(0.1f)) return;
 
                 if (!isjumping)
@@ -97,7 +104,7 @@ public class PlayerController : MonoBehaviour
                     IsJumping(true);
                     playerJump.Jump(rb, groundCheck, animator, this);
                 }
-                
+
                 break;
         }
     }
@@ -108,7 +115,28 @@ public class PlayerController : MonoBehaviour
     public void JumpInput(InputAction.CallbackContext context)
     {
         if (!context.started || !groundCheck.GroundedCheck(0.1f)) { return; }
-        if (prevState != PlayerStates.Jump) prevState = playerState;
         playerState = PlayerStates.Jump;
+    }
+    public void ToggleRollerblades(InputAction.CallbackContext context)
+    {
+        if (!context.started)
+        {
+            return;
+        }
+        for (int i = 0; i < wheels.Count; i++)
+        {
+            wheels[i].SetActive(!wheels[i].activeSelf);
+        }
+        if (wheels[0].activeSelf)
+        {
+            playerCollider.height += 0.1f;
+        }
+        else
+        {
+            playerCollider.height -= 0.1f;
+        }
+
+        animator.SetBool("Rollerblade", wheels[0].activeSelf);
+        winterTyre.RollerBladeOn = !winterTyre.RollerBladeOn;
     }
 }
