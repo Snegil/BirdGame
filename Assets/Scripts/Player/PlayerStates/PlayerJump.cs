@@ -13,8 +13,4 @@ public class PlayerJump : MonoBehaviour
 
         rb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
     }
-    public void Land(Animator animator, PlayerController playerController)
-    {
-        animator.SetTrigger("Land");
-    }
 }

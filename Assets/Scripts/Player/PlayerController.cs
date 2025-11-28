@@ -93,7 +93,6 @@ public class PlayerController : MonoBehaviour
                 {
                     IsJumping(false);
                     playerState = PlayerStates.Idle;
-                    playerJump.Land(animator, this);
                     return;
                 }
 

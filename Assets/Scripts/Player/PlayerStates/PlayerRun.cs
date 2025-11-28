@@ -24,6 +24,7 @@ public class PlayerRun : MonoBehaviour
 
         if (runAnim && !animator.GetCurrentAnimatorStateInfo(0).IsName("Movement"))
         {
+            animator.ResetTrigger("Idle");
             animator.SetTrigger("Movement");
         }
         if (runAnim)
