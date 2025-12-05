@@ -27,7 +27,7 @@ public class InputManager : MonoBehaviour
             readValue.x = -0.05f;
         }
 
-        sphere.localPosition = new Vector3(readValue.x, 0, readValue.z); 
+        sphere.localPosition = new Vector3(readValue.x, 0, readValue.z);
     }
 
     public void Input(InputAction.CallbackContext context)

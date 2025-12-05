@@ -1,4 +1,5 @@
-using System.Collections.Generic;
+using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -19,9 +20,8 @@ public class PlayerRun : MonoBehaviour
     [SerializeField]
     float maxSpeed = 10;
 
-    public void Run(PlayerStates playerState, Transform waypoint, Animator animator, GroundCheck groundCheck, GameObject playerModel, Rigidbody rb, bool runAnim)
+    public void Run(PlayerStates playerState, Transform waypoint, Animator animator, GroundCheck groundCheck, GameObject playerModel, Rigidbody rb, bool isRollerbladeOn, bool runAnim)
     {
-
         if (runAnim && !animator.GetCurrentAnimatorStateInfo(0).IsName("Movement"))
         {
             animator.ResetTrigger("Idle");
@@ -29,7 +29,7 @@ public class PlayerRun : MonoBehaviour
         }
         if (runAnim)
         {
-            animator.speed = isRunning ? 2 : Mathf.Clamp(Vector3.Distance(gameObject.transform.position, waypoint.position), 0, 1);
+            animator.speed = isRunning && !isRollerbladeOn ? 2 : Mathf.Clamp(Vector3.Distance(gameObject.transform.position, waypoint.position), 0, 1);
         }
 
         Vector3 movementDirection = waypoint.position - gameObject.transform.position;

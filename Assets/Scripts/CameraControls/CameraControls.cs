@@ -40,7 +40,7 @@ public class CameraControls : MonoBehaviour
 
     [SerializeField]
     PlayerController playerController;
-    
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -55,8 +55,8 @@ public class CameraControls : MonoBehaviour
 
         if (timeUntilFollow > 0)
         {
-            timeUntilFollow -= Time.deltaTime;    
-        }        
+            timeUntilFollow -= Time.deltaTime;
+        }
 
         if (cameraMoving)
         {
@@ -71,7 +71,7 @@ public class CameraControls : MonoBehaviour
     {
         if (playerController.AllowCamControl && cameraMoving)
         {
-            player.parent.GetComponent<Rigidbody>().rotation = Quaternion.Euler(0, totalRotX, 0f);
+            player.parent.GetComponent<Rigidbody>().rotation = Quaternion.Euler(player.parent.rotation.x, totalRotX, player.parent.rotation.z);
         }
 
         if (!smartCamera) return;
@@ -105,9 +105,9 @@ public class CameraControls : MonoBehaviour
         }
         if (context.canceled)
         {
-            cameraMoving  = false;
+            cameraMoving = false;
         }
-        
+
         sensitivity = context.control.device is Gamepad ? controllerSensitivity : mouseSensitivity;
         Cursor.visible = context.control.device is not Gamepad;
         Cursor.lockState = context.control.device is Gamepad ? CursorLockMode.None : CursorLockMode.Locked;

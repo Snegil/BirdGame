@@ -36,10 +36,19 @@ public class PlayerController : MonoBehaviour
     CapsuleCollider playerCollider;
 
     [SerializeField]
-    List<GameObject> wheels = new();
+    float rollerbladeCD = 10f;
+    float setRollerbladeCD;
+
+    [SerializeField]
+    List<GameObject> RegularBoots = new();
+    [SerializeField]
+    GameObject Rollerblades;
 
     void Start()
     {
+        setRollerbladeCD = rollerbladeCD;
+        rollerbladeCD = 0;
+
         playerIdle = GetComponent<PlayerIdle>();
         playerRun = GetComponent<PlayerRun>();
         playerJump = GetComponent<PlayerJump>();
@@ -54,6 +63,8 @@ public class PlayerController : MonoBehaviour
     }
     void FixedUpdate()
     {
+        if (rollerbladeCD > 0) rollerbladeCD -= Time.deltaTime;
+
         Vector3 movementDirection = sphere.position - gameObject.transform.position;
         movementDirection.y = 0; // Set the y component to 0 to prevent vertical movement
         movementDirection.Normalize(); // Normalize the direction vector
@@ -80,13 +91,13 @@ public class PlayerController : MonoBehaviour
                 }
                 AllowCamControl = true;
                 //Last boolean in playerrun.run() is to run animation!
-                playerRun.Run(playerState, sphere, animator, groundCheck, playerModel, rb, true);
+                playerRun.Run(playerState, sphere, animator, groundCheck, playerModel, rb, winterTyre.RollerBladeOn, true);
                 winterTyre.CustomDamping(rb);
                 break;
 
             case PlayerStates.Jump:
                 AllowCamControl = true;
-                playerRun.Run(playerState, sphere, animator, groundCheck, playerModel, rb, false);
+                playerRun.Run(playerState, sphere, animator, groundCheck, playerModel, rb, winterTyre.RollerBladeOn, false);
                 winterTyre.CustomDamping(rb);
 
                 if (isjumping && groundCheck.GroundedCheck(0.1f))
@@ -122,20 +133,18 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
-        for (int i = 0; i < wheels.Count; i++)
-        {
-            wheels[i].SetActive(!wheels[i].activeSelf);
-        }
-        if (wheels[0].activeSelf)
-        {
-            playerCollider.height += 0.1f;
-        }
-        else
-        {
-            playerCollider.height -= 0.1f;
-        }
 
-        animator.SetBool("Rollerblade", wheels[0].activeSelf);
+        if (rollerbladeCD > 0 && !winterTyre.RollerBladeOn) return;
+
         winterTyre.RollerBladeOn = !winterTyre.RollerBladeOn;
+        rollerbladeCD = setRollerbladeCD;
+
+        for (int i = 0; i < RegularBoots.Count; i++)
+        {
+            RegularBoots[i].SetActive(!winterTyre.RollerBladeOn);
+        }
+        Rollerblades.SetActive(winterTyre.RollerBladeOn);
+
+        animator.SetBool("Rollerblade", winterTyre.RollerBladeOn);
     }
 }

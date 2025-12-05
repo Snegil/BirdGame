@@ -3,12 +3,11 @@ using UnityEngine;
 public class PlayerNormalRotate : MonoBehaviour
 {
     Rigidbody rb;
+    [SerializeField]
+    float lerpSpeed = 2;
 
     [SerializeField]
     LayerMask layerMask;
-
-    [SerializeField]
-    Transform playerModel;
 
     void Start()
     {
@@ -19,11 +18,10 @@ public class PlayerNormalRotate : MonoBehaviour
     void FixedUpdate()
     {
         //Raycast down to the ground
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, Vector3.down, out hit, 100, layerMask))
+        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 20, layerMask))
         {
             //Rotate the player to the normal of the ground
-            rb.rotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
-        }       
+            rb.rotation = Quaternion.Lerp(rb.rotation, Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation, Time.deltaTime * lerpSpeed);
+        }
     }
 }
