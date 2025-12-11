@@ -10,8 +10,8 @@ public class FloatNBob : MonoBehaviour
 
     [SerializeField]
     float sinFrequency = 10f;
-    [SerializeField]
-    float highestPoint = 0.5f;
+    //[SerializeField]
+    //float highestPoint = 0.5f;
 
     Vector3 startPosition;
 

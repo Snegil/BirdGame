@@ -6,14 +6,14 @@ public class JumpPad : MonoBehaviour
     [SerializeField]
     float jumpPower;
 
-    Collider collider;
+    Collider jumpCollider;
 
     [SerializeField]
     float jumpPadCooldown = 2f;
 
     void Start()
     {
-        collider = GetComponent<Collider>();
+        jumpCollider = GetComponent<Collider>();
     }
 
     public void OnTriggerEnter(Collider other)
@@ -29,9 +29,9 @@ public class JumpPad : MonoBehaviour
 
     IEnumerator CooldownRoutine()
     {
-        collider.enabled = false;
+        jumpCollider.enabled = false;
         yield return new WaitForSeconds(jumpPadCooldown);
-        collider.enabled = true;
+        jumpCollider.enabled = true;
         yield break;
     }
 }
