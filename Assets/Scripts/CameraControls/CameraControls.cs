@@ -36,7 +36,7 @@ public class CameraControls : MonoBehaviour
     float autoFollowBackwardsTolerance = 0.1f;
 
     [Space, SerializeField]
-    Transform player;
+    Transform playerModel;
 
     [SerializeField]
     PlayerController playerController;
@@ -63,21 +63,21 @@ public class CameraControls : MonoBehaviour
             transform.rotation = Quaternion.Euler(-totalRotY, totalRotX, 0f);
             timeUntilFollow = setTimeUntilFollow;
         }
-        Debug.DrawRay(player.position, player.forward, Color.yellow);
-        Debug.DrawRay(player.parent.position, player.parent.forward, Color.cyan);
+        Debug.DrawRay(playerModel.position, playerModel.forward, Color.yellow);
+        Debug.DrawRay(playerModel.parent.position, playerModel.parent.forward, Color.cyan);
         Debug.DrawRay(transform.position, transform.forward, Color.magenta);
     }
     void FixedUpdate()
     {
         if (playerController.AllowCamControl && cameraMoving)
         {
-            player.parent.GetComponent<Rigidbody>().rotation = Quaternion.Euler(player.parent.rotation.x, totalRotX, player.parent.rotation.z);
+            playerModel.parent.GetComponent<Rigidbody>().rotation = Quaternion.Euler(playerModel.parent.rotation.x, totalRotX, playerModel.parent.rotation.z);
         }
 
         if (!smartCamera) return;
 
         Vector3 camForward = new Vector3(transform.forward.x, 0, transform.forward.z).normalized;
-        Vector3 playerForward = new Vector3(player.forward.x, 0, player.forward.z).normalized;
+        Vector3 playerForward = new Vector3(playerModel.forward.x, 0, playerModel.forward.z).normalized;
 
         float forwardDot = Vector3.Dot(camForward, playerForward);
 
@@ -86,11 +86,11 @@ public class CameraControls : MonoBehaviour
 
         if (playerController.AllowCamControl && !cameraMoving && timeUntilFollow <= 0 && movingForwardRelative)
         {
-            autoRotX = Mathf.DeltaAngle(0, player.rotation.eulerAngles.y);
+            autoRotX = Mathf.DeltaAngle(0, playerModel.rotation.eulerAngles.y);
             Quaternion autoTargetRot = Quaternion.Euler(autoRotYTarget, autoRotX, 0f);
 
-            player.parent.GetComponent<Rigidbody>().rotation = Quaternion.Lerp(player.parent.GetComponent<Rigidbody>().rotation, autoTargetRot, Time.deltaTime * lerpSpeed);
-            transform.rotation = Quaternion.Lerp(transform.rotation, player.rotation, Time.deltaTime * lerpSpeed);
+            playerModel.parent.GetComponent<Rigidbody>().rotation = Quaternion.Lerp(playerModel.parent.GetComponent<Rigidbody>().rotation, autoTargetRot, Time.deltaTime * lerpSpeed);
+            transform.rotation = Quaternion.Lerp(transform.rotation, playerModel.rotation, Time.deltaTime * lerpSpeed);
 
             totalRotX = Mathf.DeltaAngle(0, transform.rotation.eulerAngles.y);
             totalRotY = Mathf.DeltaAngle(0, -transform.rotation.eulerAngles.x);

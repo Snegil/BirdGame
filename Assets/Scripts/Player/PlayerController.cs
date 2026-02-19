@@ -45,7 +45,7 @@ public class PlayerController : MonoBehaviour
     GameObject Rollerblades;
 
     [SerializeField]
-    float fasterDownforce = 0.2f;
+    float fasterDownwardforce = 0.2f;
 
     void Start()
     {
@@ -112,7 +112,7 @@ public class PlayerController : MonoBehaviour
 
                 if (isjumping && !groundCheck.GroundedCheck(0.1f) && rb.linearVelocity.y < 0)
                 {
-                    rb.linearVelocity = new Vector3(rb.linearVelocity.x, rb.linearVelocity.y * (1 + fasterDownforce), rb.linearVelocity.z);
+                    rb.linearVelocity = new Vector3(rb.linearVelocity.x, rb.linearVelocity.y * (1 + fasterDownwardforce), rb.linearVelocity.z);
                 }
 
                 if (isjumping && !groundCheck.GroundedCheck(0.1f)) return;

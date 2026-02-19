@@ -18,7 +18,7 @@ public class ReturnToPlatform : MonoBehaviour
     }
     void FixedUpdate()
     {
-        if (transform.position.y < -80)
+        if (transform.position.y < lastSafePosition.y - 80 && !groundCheck.GroundedCheck(Mathf.Infinity))
         {
             transform.position = lastSafePosition;
         }
