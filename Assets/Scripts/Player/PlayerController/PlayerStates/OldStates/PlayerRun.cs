@@ -1,5 +1,3 @@
-using System;
-using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -15,23 +13,11 @@ public class PlayerRun : MonoBehaviour
     [SerializeField]
     float airbourneSpeed = 0.5f;
 
-    bool isRunning = false;
-
     [SerializeField]
     float maxSpeed = 10;
 
-    public void Run(PlayerStates playerState, Transform waypoint, Animator animator, GroundCheck groundCheck, GameObject playerModel, Rigidbody rb, bool isRollerbladeOn, bool runAnim)
+    public void Run(Transform waypoint, GroundCheck groundCheck, GameObject playerModel, Rigidbody rb, bool isRollerbladeOn)
     {
-        if (runAnim && !animator.GetCurrentAnimatorStateInfo(0).IsName("Movement"))
-        {
-            animator.ResetTrigger("Idle");
-            animator.SetTrigger("Movement");
-        }
-        if (runAnim)
-        {
-            animator.speed = isRunning && !isRollerbladeOn ? 2 : Mathf.Clamp(Vector3.Distance(gameObject.transform.position, waypoint.position), 0, 1);
-        }
-
         Vector3 movementDirection = waypoint.position - gameObject.transform.position;
         movementDirection.Normalize(); // Normalize the direction vector
 
@@ -54,12 +40,10 @@ public class PlayerRun : MonoBehaviour
     {
         if (context.started)
         {
-            isRunning = true;
             sprint = sprintSpeed;
         }
         if (context.canceled)
         {
-            isRunning = false;
             sprint = 1;
         }
     }

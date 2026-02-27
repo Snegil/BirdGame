@@ -14,8 +14,13 @@ public class GroundCheck : MonoBehaviour
     {
         if (length == -20f) length = distance;
 
-        //TODO: FIX THIS GROUNDCHECK
         //return Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, length, layerMask);
         return Physics.BoxCast(transform.position + transform.up * 0.1f, boxCastSize, -transform.up, out RaycastHit hit, Quaternion.identity, length, layerMask);
+    }
+    public float DistanceFromGround(float length = -20f)
+    {
+        if (length == -20f) length = distance;
+        Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, length, layerMask);
+        return hit.distance;
     }
 }

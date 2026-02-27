@@ -31,7 +31,7 @@ public class ReturnToPlatform : MonoBehaviour
         {
             Vector3 oldLastSafePosition = lastSafePosition;
             lastSafePosition = transform.position;
-            Debug.Log("Set safe position\n" + "Old: " + oldLastSafePosition + "\nNew: " + lastSafePosition);
+            //Debug.Log("Set safe position\n" + "Old: " + oldLastSafePosition + "\nNew: " + lastSafePosition);
         }
 
         timeUntilCheck = setTimeUntilCheck;

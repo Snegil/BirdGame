@@ -8,6 +8,8 @@ public class InputManager : MonoBehaviour
 
     [SerializeField]
     PlayerController playerController;
+    [SerializeField]
+    Transform playerModel;
 
     bool hasInput = false;
 

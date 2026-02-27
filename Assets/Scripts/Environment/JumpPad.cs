@@ -29,9 +29,9 @@ public class JumpPad : MonoBehaviour
 
     IEnumerator CooldownRoutine()
     {
-        jumpCollider.enabled = false;
+        jumpCollider.isTrigger = false;
         yield return new WaitForSeconds(jumpPadCooldown);
-        jumpCollider.enabled = true;
+        jumpCollider.isTrigger = true;
         yield break;
     }
 }

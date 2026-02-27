@@ -3,20 +3,20 @@ using UnityEngine;
 public class WinterTyre : MonoBehaviour
 {
     [SerializeField]
-    bool rollerbladeOn = false;
+    bool dampingEnabled = false;
     [SerializeField]
     float frictionFactor = 0.85f;
 
-    public bool RollerBladeOn
+    public bool DampingEnabled
     {
-        get { return rollerbladeOn; }
-        set { rollerbladeOn = value; }
+        get { return dampingEnabled; }
+        set { dampingEnabled = value; }
     }
 
     // My own linear damping due to regular rigidbody linear damping dampens Y axis, slowing the fall.
     public void CustomDamping(Rigidbody rb)
     {
-        if (rollerbladeOn) return;
+        if (dampingEnabled) return;
         Vector3 vel = rb.linearVelocity;
 
         // Reduce sliding only on the ground plane
