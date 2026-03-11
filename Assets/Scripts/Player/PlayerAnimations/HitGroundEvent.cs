@@ -12,10 +12,10 @@ public class HitGroundEvent : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         //Debug.Log("ENTERED TRIGGER");
-        //playerController.HitGround(true);
+        playerController.HitGround(true);
     }
     void OnTriggerExit(Collider other)
     {
-        //playerController.HitGround(false);
+        playerController.HitGround(false);
     }
 }

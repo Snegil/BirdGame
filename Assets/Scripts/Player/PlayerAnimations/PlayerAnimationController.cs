@@ -1,3 +1,4 @@
+using System.ComponentModel.Design;
 using UnityEngine;
 
 public class PlayerAnimationController : MonoBehaviour
@@ -38,15 +39,23 @@ public class PlayerAnimationController : MonoBehaviour
     {
         switch (state)
         {
+            case PlayerStates.Idle:
+                ResetAllTriggers();
+                animator.SetFloat("SpeedMultiplier", 1);
+                animator.SetTrigger("Idle");
+                break;
             case PlayerStates.Walk:
+                ResetAllTriggers();
                 animator.SetFloat("SpeedMultiplier", 1);
                 animator.SetTrigger("Movement");
                 break;
             case PlayerStates.Run:
+                ResetAllTriggers();
                 animator.SetFloat("SpeedMultiplier", runningAnimatorSpeed);
                 animator.SetTrigger("Movement");
                 break;
             case PlayerStates.Jump:
+                ResetAllTriggers();
                 if (animator.GetCurrentAnimatorStateInfo(0).IsName("Jump"))
                 {
                     return;
@@ -55,9 +64,11 @@ public class PlayerAnimationController : MonoBehaviour
                 animator.SetTrigger("Jump");
                 break;
             case PlayerStates.Land:
+                ResetAllTriggers();
                 animator.SetTrigger("Land");
                 break;
             default:
+                Debug.Log(this + " DEFAULTED.");
                 animator.SetFloat("SpeedMultiplier", 1);
                 animator.SetTrigger("Idle");
                 break;

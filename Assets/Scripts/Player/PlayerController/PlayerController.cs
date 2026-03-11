@@ -60,6 +60,8 @@ public class PlayerController : MonoBehaviour
     [Space, SerializeField]
     Animator animator;
 
+    bool hitGround;
+
     void Start()
     {
         setRollerbladeCD = rollerbladeCD;
@@ -75,12 +77,12 @@ public class PlayerController : MonoBehaviour
         if (rollerbladeCD > 0) rollerbladeCD -= Time.deltaTime;
 
         Vector3 movementDirection = waypoint.position - gameObject.transform.position;
-        movementDirection.y = 0; // Set the y component to 0 to prevent vertical movement
+        movementDirection.y = 0; // Set the y value to 0 to prevent vertical movement
         movementDirection.Normalize(); // Normalize the direction vector
 
-        float distanceFromWaypoint = Mathf.Clamp(Vector3.Distance(waypoint.position, transform.position), 0, 1);
+        float distanceFromWaypoint = Vector3.Distance(waypoint.position, transform.position);
 
-        //Debug.Log(distanceFromWaypoint);
+        //Debug.Log(distanceFromWaypoint + "| Unclamped: " + Vector3.Distance(waypoint.position, transform.position));
 
         switch (playerState)
         {
@@ -96,6 +98,7 @@ public class PlayerController : MonoBehaviour
                 if (distanceFromWaypoint > deadZone)
                 {
                     ChangeState(PlayerStates.Walk);
+                    return;
                 }
                 AllowCamControl = false;
                 idle.Idle(groundCheck);
@@ -109,17 +112,20 @@ public class PlayerController : MonoBehaviour
                     //Debug.Log("JUMP BUTTON PRESSED ENTERED IN WALK CASE");
                     ChangeState(PlayerStates.Jump);
                     jumpButtonPressed = false;
+                    return;
                 }
                 // IF ISRUNNING == TRUE, CHANGE STATE TO RUN.
                 if (isRunning)
                 {
                     //Debug.Log("IS RUNNING");
                     ChangeState(PlayerStates.Run);
+                    return;
                 }
                 // IF DISTANCE FROM THE WAYPOINT MOVED BY INPUTMANAGER.CS IS LESS THAN DEADZON VARIABLE, CHANGE STATE TO IDLE.
                 if (distanceFromWaypoint < deadZone)
                 {
                     ChangeState(PlayerStates.Idle);
+                    return;
                 }
                 AllowCamControl = true;
                 walk.Walk(waypoint, gameObject, groundCheck, playerModel, rb);
@@ -133,12 +139,20 @@ public class PlayerController : MonoBehaviour
                     //Debug.Log("JUMP BUTTON PRESSED ENTERED IN RUN CASE");
                     ChangeState(PlayerStates.Jump);
                     jumpButtonPressed = false;
+                    return;
                 }
                 // IF ISRUNNING == FALSE, CHANGE STATE TO WALK.
                 if (!isRunning)
                 {
                     //Debug.Log("IS NOT RUNNING");
                     ChangeState(PlayerStates.Walk);
+                    return;
+                }
+                // IF DISTANCE FROM THE WAYPOINT MOVED BY INPUTMANAGER.CS IS LESS THAN DEADZON VARIABLE, CHANGE STATE TO IDLE.
+                if (distanceFromWaypoint <= deadZone)
+                {
+                    ChangeState(PlayerStates.Idle);
+                    return;
                 }
                 AllowCamControl = true;
                 run.Run(waypoint, gameObject, groundCheck, playerModel, rb);
@@ -146,7 +160,7 @@ public class PlayerController : MonoBehaviour
                 break;
 
             case PlayerStates.Jump:
-                if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.6 && isjumping)
+                if (hitGround && isjumping == true)
                 {
                     ChangeState(PlayerStates.Land);
                     return;
@@ -167,20 +181,15 @@ public class PlayerController : MonoBehaviour
                 {
                     jump.Jump(rb);
                     isjumping = true;
+                    hitGround = false;
                 }
 
                 break;
 
             case PlayerStates.Land:
-                // IF ANIMATION CLIP IS FINISHED PLAYING, CHANGE STATE TO IDLE.
-                if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1)
-                {
-                    ChangeState(PlayerStates.Idle);
-                    isjumping = false;
-                    jumpButtonPressed = false;
-                    return;
-                }
-
+                ChangeState(PlayerStates.Idle);
+                isjumping = false;
+                jumpButtonPressed = false;
                 walk.Walk(waypoint, gameObject, groundCheck, playerModel, rb);
                 winterTyre.CustomDamping(rb);
                 AllowCamControl = true;
@@ -212,6 +221,7 @@ public class PlayerController : MonoBehaviour
 
         if (rollerbladeCD > 0 && !winterTyre.DampingEnabled) return;
 
+        animator.SetBool("Rollerblade", !animator.GetBool("Rollerblade"));
         winterTyre.DampingEnabled = !winterTyre.DampingEnabled;
         rollerbladeCD = setRollerbladeCD;
 
@@ -220,5 +230,9 @@ public class PlayerController : MonoBehaviour
             RegularBoots[i].SetActive(!winterTyre.DampingEnabled);
         }
         Rollerblades.SetActive(winterTyre.DampingEnabled);
+    }
+    public void HitGround(bool value)
+    {
+        hitGround = value;
     }
 }
