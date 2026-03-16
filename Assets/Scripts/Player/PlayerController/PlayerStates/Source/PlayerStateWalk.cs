@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "PlayerStateWalk", menuName = "ScriptableObjects/PlayerStateWalk", order = 2)]
+[CreateAssetMenu(fileName = "PlayerStateWalk", menuName = "PlayerStates/PlayerStateWalk", order = 2)]
 public class PlayerStateWalk : ScriptableObject
 {
     [SerializeField]

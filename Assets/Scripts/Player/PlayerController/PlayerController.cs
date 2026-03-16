@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor.Rendering.LookDev;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -30,6 +32,8 @@ public class PlayerController : MonoBehaviour
     PlayerStateRun run;
     [SerializeField]
     PlayerStateJump jump;
+    [SerializeField]
+    PlayerStateAttack attack;
 
     [Space, Space]
 
@@ -56,6 +60,7 @@ public class PlayerController : MonoBehaviour
     float fasterDownwardforce = 0.2f;
 
     bool jumpButtonPressed = false;
+    bool attackButtonPressed = false;
 
     [Space, SerializeField]
     Animator animator;
@@ -93,6 +98,11 @@ public class PlayerController : MonoBehaviour
                     //Debug.Log("JUMP BUTTON PRESSED ENTERED IN IDLE CASE");
                     ChangeState(PlayerStates.Jump);
                 }
+                if (attackButtonPressed)
+                {
+                    ChangeState(PlayerStates.Attack);
+                    return;
+                }
 
                 // IF DISTANCE FROM THE WAYPOINT MOVED BY INPUTMANAGER.CS IS GREATER THAN OR EQUAL TO DEADZONE VARIABLE, CHANGE STATE TO WALK.
                 if (distanceFromWaypoint > deadZone)
@@ -111,7 +121,11 @@ public class PlayerController : MonoBehaviour
                 {
                     //Debug.Log("JUMP BUTTON PRESSED ENTERED IN WALK CASE");
                     ChangeState(PlayerStates.Jump);
-                    jumpButtonPressed = false;
+                    return;
+                }
+                if (attackButtonPressed)
+                {
+                    ChangeState(PlayerStates.Attack);
                     return;
                 }
                 // IF ISRUNNING == TRUE, CHANGE STATE TO RUN.
@@ -141,6 +155,11 @@ public class PlayerController : MonoBehaviour
                     jumpButtonPressed = false;
                     return;
                 }
+                if (attackButtonPressed)
+                {
+                    ChangeState(PlayerStates.Attack);
+                    return;
+                }
                 // IF ISRUNNING == FALSE, CHANGE STATE TO WALK.
                 if (!isRunning)
                 {
@@ -159,6 +178,7 @@ public class PlayerController : MonoBehaviour
                 winterTyre.CustomDamping(rb);
                 break;
 
+            //TODO: Fix that when jumping from either walk or run, go in that same speed in the air, and don't allow change.
             case PlayerStates.Jump:
                 if (hitGround && isjumping == true)
                 {
@@ -194,6 +214,17 @@ public class PlayerController : MonoBehaviour
                 winterTyre.CustomDamping(rb);
                 AllowCamControl = true;
                 break;
+
+            //TODO: Should movement be allowed? and animations are needed + damage effects.
+            case PlayerStates.Attack:
+                if (!attackButtonPressed)
+                {
+                    ChangeState(PlayerStates.Idle);
+                    return;
+                }
+                ChangeState(PlayerStates.Attack);
+                attack.Attack();
+                break;
         }
     }
 
@@ -203,6 +234,11 @@ public class PlayerController : MonoBehaviour
         PlayerStateChange?.Invoke(state);
     }
 
+    public void AttackInput(InputAction.CallbackContext context)
+    {
+        if (context.canceled) attackButtonPressed = false;
+        if (context.started) attackButtonPressed = true;
+    }
     public void JumpInput(InputAction.CallbackContext context)
     {
         if (!context.started || !groundCheck.GroundedCheck(0.1f)) return;

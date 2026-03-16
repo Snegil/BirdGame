@@ -5,4 +5,5 @@ public enum PlayerStates
     Run,
     Jump,
     Land,
+    Attack,
 }
