@@ -20,8 +20,7 @@ public class PlayerController : MonoBehaviour
     [Space, SerializeField]
     Transform waypoint;
 
-    bool isjumping = false;
-    bool isAttacking = false;
+    bool isJumping = false;
 
     [Space, Space]
 
@@ -61,7 +60,6 @@ public class PlayerController : MonoBehaviour
     float fasterDownwardforce = 0.2f;
 
     bool jumpButtonPressed = false;
-    bool attackButtonPressed = false;
 
     [Space, SerializeField]
     Animator animator;
@@ -169,7 +167,7 @@ public class PlayerController : MonoBehaviour
 
             //TODO: Fix that when jumping from either walk or run, go in that same speed in the air, and don't allow change.
             case PlayerStates.Jump:
-                if (hitGround && isjumping == true)
+                if (hitGround && isJumping == true)
                 {
                     ChangeState(PlayerStates.Land);
                     return;
@@ -193,10 +191,10 @@ public class PlayerController : MonoBehaviour
                 }
 
                 // IF NOT JUMPING, JUMP
-                if (!isjumping)
+                if (!isJumping)
                 {
                     jump.Jump(rb);
-                    isjumping = true;
+                    isJumping = true;
                     hitGround = false;
                 }
 
@@ -204,7 +202,7 @@ public class PlayerController : MonoBehaviour
 
             case PlayerStates.Land:
                 ChangeState(PlayerStates.Idle);
-                isjumping = false;
+                isJumping = false;
                 jumpButtonPressed = false;
                 walk.Walk(waypoint, gameObject, groundCheck, playerModel, rb);
                 customDamping.CustomDamping(rb);
@@ -221,7 +219,7 @@ public class PlayerController : MonoBehaviour
 
     public void AttackInput(InputAction.CallbackContext context)
     {
-        if (!context.started) return;
+        if (!context.started || isJumping) return;
         attack.Attack();
         animator.SetTrigger("Attack");
     }
