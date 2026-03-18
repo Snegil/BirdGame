@@ -68,9 +68,6 @@ public class PlayerAnimationController : MonoBehaviour
                 animator.SetTrigger("Land");
                 break;
             default:
-                Debug.Log(this + " DEFAULTED.");
-                animator.SetFloat("SpeedMultiplier", 1);
-                animator.SetTrigger("Idle");
                 break;
         }
 

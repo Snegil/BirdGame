@@ -1,0 +1,95 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!319 &31900000
+AvatarMask:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: KiwiAvatarMask
+  m_Mask: 00000000010000000100000000000000000000000100000001000000010000000100000000000000000000000100000001000000
+  m_Elements:
+  - m_Path: 
+    m_Weight: 1
+  - m_Path: Armature
+    m_Weight: 1
+  - m_Path: Armature/Back-Lower
+    m_Weight: 1
+  - m_Path: Armature/Back-Lower/Back-Middle
+    m_Weight: 1
+  - m_Path: Armature/Back-Lower/Back-Middle/Back-Middle_end
+    m_Weight: 1
+  - m_Path: Armature/Back-Lower/Back-Upper
+    m_Weight: 1
+  - m_Path: Armature/Back-Lower/Back-Upper/Head
+    m_Weight: 1
+  - m_Path: Armature/Back-Lower/Back-Upper/Head/L-Pupil
+    m_Weight: 1
+  - m_Path: Armature/Back-Lower/Back-Upper/Head/L-Pupil/L-Pupil_end
+    m_Weight: 1
+  - m_Path: Armature/Back-Lower/Back-Upper/Head/Needle
+    m_Weight: 1
+  - m_Path: Armature/Back-Lower/Back-Upper/Head/Needle/Needle_end
+    m_Weight: 1
+  - m_Path: Armature/Back-Lower/Back-Upper/Head/R-Pupil
+    m_Weight: 1
+  - m_Path: Armature/Back-Lower/Back-Upper/Head/R-Pupil/R-Pupil_end
+    m_Weight: 1
+  - m_Path: Armature/Back-Lower/L-Femur
+    m_Weight: 1
+  - m_Path: Armature/Back-Lower/L-Femur/L-Foot
+    m_Weight: 1
+  - m_Path: Armature/Back-Lower/L-Femur/L-Foot/L-Toe
+    m_Weight: 1
+  - m_Path: Armature/Back-Lower/L-Femur/L-Foot/L-Toe/L-Toe_end
+    m_Weight: 1
+  - m_Path: Armature/Back-Lower/R-Femur
+    m_Weight: 1
+  - m_Path: Armature/Back-Lower/R-Femur/R-Foot
+    m_Weight: 1
+  - m_Path: Armature/Back-Lower/R-Femur/R-Foot/R-Toe
+    m_Weight: 1
+  - m_Path: Armature/Back-Lower/R-Femur/R-Foot/R-Toe/R-Toe_end
+    m_Weight: 1
+  - m_Path: Armature/L-Heel
+    m_Weight: 1
+  - m_Path: Armature/L-Heel/L-Heel_end
+    m_Weight: 1
+  - m_Path: Armature/L-PoleTarget
+    m_Weight: 1
+  - m_Path: Armature/L-PoleTarget/L-PoleTarget_end
+    m_Weight: 1
+  - m_Path: Armature/R-Heel
+    m_Weight: 1
+  - m_Path: Armature/R-Heel/R-Heel_end
+    m_Weight: 1
+  - m_Path: Armature/R-PoleTarget
+    m_Weight: 1
+  - m_Path: Armature/R-PoleTarget/R-PoleTarget_end
+    m_Weight: 1
+  - m_Path: Body
+    m_Weight: 1
+  - m_Path: Cape
+    m_Weight: 1
+  - m_Path: Crosstitch
+    m_Weight: 1
+  - m_Path: Crosstitch-attachment
+    m_Weight: 1
+  - m_Path: Eye-Pupil-L
+    m_Weight: 1
+  - m_Path: Eye-Pupil-R
+    m_Weight: 1
+  - m_Path: Head
+    m_Weight: 1
+  - m_Path: Legs
+    m_Weight: 1
+  - m_Path: Plane
+    m_Weight: 1
+  - m_Path: Tophat
+    m_Weight: 1
+  - m_Path: Ugg-Left
+    m_Weight: 1
+  - m_Path: Ugg-Right
+    m_Weight: 1
+  - m_Path: Uggs-Rollerblades
+    m_Weight: 1

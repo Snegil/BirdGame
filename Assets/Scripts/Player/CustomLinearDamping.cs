@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class WinterTyre : MonoBehaviour
+public class CustomLinearDamping : MonoBehaviour
 {
     [SerializeField]
     bool dampingEnabled = false;

@@ -1,10 +1,8 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.Rendering.LookDev;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(GroundCheck), typeof(Rigidbody), typeof(WinterTyre))]
+[RequireComponent(typeof(GroundCheck), typeof(Rigidbody), typeof(CustomLinearDamping))]
 public class PlayerController : MonoBehaviour
 {
     public delegate void PlayerStateUpdate(PlayerStates playerState);
@@ -12,6 +10,8 @@ public class PlayerController : MonoBehaviour
 
     [Space, SerializeField]
     PlayerStates playerState;
+
+    //TODO: Need better name for this; it's unclear what it does. (even if I declared it.)
     public bool AllowCamControl { get; set; } = false;
 
     [Space, SerializeField, Header("Deadzone distance from centre of player character:")]
@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
     Transform waypoint;
 
     bool isjumping = false;
+    bool isAttacking = false;
 
     [Space, Space]
 
@@ -39,7 +40,7 @@ public class PlayerController : MonoBehaviour
 
     bool isRunning = false;
 
-    WinterTyre winterTyre;
+    CustomLinearDamping customDamping;
 
     GroundCheck groundCheck;
     Rigidbody rb;
@@ -67,6 +68,8 @@ public class PlayerController : MonoBehaviour
 
     bool hitGround;
 
+    PlayerStates stateWhenJumpInput;
+
     void Start()
     {
         setRollerbladeCD = rollerbladeCD;
@@ -74,7 +77,7 @@ public class PlayerController : MonoBehaviour
 
         groundCheck = GetComponent<GroundCheck>();
         rb = GetComponent<Rigidbody>();
-        winterTyre = GetComponent<WinterTyre>();
+        customDamping = GetComponent<CustomLinearDamping>();
     }
 
     void FixedUpdate()
@@ -98,11 +101,6 @@ public class PlayerController : MonoBehaviour
                     //Debug.Log("JUMP BUTTON PRESSED ENTERED IN IDLE CASE");
                     ChangeState(PlayerStates.Jump);
                 }
-                if (attackButtonPressed)
-                {
-                    ChangeState(PlayerStates.Attack);
-                    return;
-                }
 
                 // IF DISTANCE FROM THE WAYPOINT MOVED BY INPUTMANAGER.CS IS GREATER THAN OR EQUAL TO DEADZONE VARIABLE, CHANGE STATE TO WALK.
                 if (distanceFromWaypoint > deadZone)
@@ -123,11 +121,6 @@ public class PlayerController : MonoBehaviour
                     ChangeState(PlayerStates.Jump);
                     return;
                 }
-                if (attackButtonPressed)
-                {
-                    ChangeState(PlayerStates.Attack);
-                    return;
-                }
                 // IF ISRUNNING == TRUE, CHANGE STATE TO RUN.
                 if (isRunning)
                 {
@@ -143,7 +136,8 @@ public class PlayerController : MonoBehaviour
                 }
                 AllowCamControl = true;
                 walk.Walk(waypoint, gameObject, groundCheck, playerModel, rb);
-                winterTyre.CustomDamping(rb);
+                animator.SetFloat("SpeedMultiplier", distanceFromWaypoint);
+                customDamping.CustomDamping(rb);
                 break;
 
             case PlayerStates.Run:
@@ -153,11 +147,6 @@ public class PlayerController : MonoBehaviour
                     //Debug.Log("JUMP BUTTON PRESSED ENTERED IN RUN CASE");
                     ChangeState(PlayerStates.Jump);
                     jumpButtonPressed = false;
-                    return;
-                }
-                if (attackButtonPressed)
-                {
-                    ChangeState(PlayerStates.Attack);
                     return;
                 }
                 // IF ISRUNNING == FALSE, CHANGE STATE TO WALK.
@@ -175,7 +164,7 @@ public class PlayerController : MonoBehaviour
                 }
                 AllowCamControl = true;
                 run.Run(waypoint, gameObject, groundCheck, playerModel, rb);
-                winterTyre.CustomDamping(rb);
+                customDamping.CustomDamping(rb);
                 break;
 
             //TODO: Fix that when jumping from either walk or run, go in that same speed in the air, and don't allow change.
@@ -186,8 +175,15 @@ public class PlayerController : MonoBehaviour
                     return;
                 }
 
-                walk.Walk(waypoint, gameObject, groundCheck, playerModel, rb);
-                winterTyre.CustomDamping(rb);
+                if (stateWhenJumpInput == PlayerStates.Walk)
+                {
+                    walk.Walk(waypoint, gameObject, groundCheck, playerModel, rb);
+                }
+                else
+                {
+                    run.Run(waypoint, gameObject, groundCheck, playerModel, rb);
+                }
+                customDamping.CustomDamping(rb);
                 AllowCamControl = true;
 
                 // FASTER DOWNFORCE
@@ -211,19 +207,8 @@ public class PlayerController : MonoBehaviour
                 isjumping = false;
                 jumpButtonPressed = false;
                 walk.Walk(waypoint, gameObject, groundCheck, playerModel, rb);
-                winterTyre.CustomDamping(rb);
+                customDamping.CustomDamping(rb);
                 AllowCamControl = true;
-                break;
-
-            //TODO: Should movement be allowed? and animations are needed + damage effects.
-            case PlayerStates.Attack:
-                if (!attackButtonPressed)
-                {
-                    ChangeState(PlayerStates.Idle);
-                    return;
-                }
-                ChangeState(PlayerStates.Attack);
-                attack.Attack();
                 break;
         }
     }
@@ -236,12 +221,14 @@ public class PlayerController : MonoBehaviour
 
     public void AttackInput(InputAction.CallbackContext context)
     {
-        if (context.canceled) attackButtonPressed = false;
-        if (context.started) attackButtonPressed = true;
+        if (!context.started) return;
+        attack.Attack();
+        animator.SetTrigger("Attack");
     }
     public void JumpInput(InputAction.CallbackContext context)
     {
         if (!context.started || !groundCheck.GroundedCheck(0.1f)) return;
+        stateWhenJumpInput = playerState;
         jumpButtonPressed = true;
     }
 
@@ -255,17 +242,17 @@ public class PlayerController : MonoBehaviour
     {
         if (!context.started) return;
 
-        if (rollerbladeCD > 0 && !winterTyre.DampingEnabled) return;
+        if (rollerbladeCD > 0 && !customDamping.DampingEnabled) return;
 
         animator.SetBool("Rollerblade", !animator.GetBool("Rollerblade"));
-        winterTyre.DampingEnabled = !winterTyre.DampingEnabled;
+        customDamping.DampingEnabled = !customDamping.DampingEnabled;
         rollerbladeCD = setRollerbladeCD;
 
         for (int i = 0; i < RegularBoots.Count; i++)
         {
-            RegularBoots[i].SetActive(!winterTyre.DampingEnabled);
+            RegularBoots[i].SetActive(!customDamping.DampingEnabled);
         }
-        Rollerblades.SetActive(winterTyre.DampingEnabled);
+        Rollerblades.SetActive(customDamping.DampingEnabled);
     }
     public void HitGround(bool value)
     {
