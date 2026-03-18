@@ -11,8 +11,8 @@ public class PlayerController : MonoBehaviour
     [Space, SerializeField]
     PlayerStates playerState;
 
-    //TODO: Need better name for this; it's unclear what it does. (even if I declared it.)
-    public bool AllowCamControl { get; set; } = false;
+    // Set to true if the player should rotate when moving the camera.
+    public bool RotatePlayerWithCamera { get; set; } = false;
 
     [Space, SerializeField, Header("Deadzone distance from centre of player character:")]
     float deadZone;
@@ -106,7 +106,7 @@ public class PlayerController : MonoBehaviour
                     ChangeState(PlayerStates.Walk);
                     return;
                 }
-                AllowCamControl = false;
+                RotatePlayerWithCamera = false;
                 idle.Idle(groundCheck);
 
                 break;
@@ -132,7 +132,7 @@ public class PlayerController : MonoBehaviour
                     ChangeState(PlayerStates.Idle);
                     return;
                 }
-                AllowCamControl = true;
+                RotatePlayerWithCamera = true;
                 walk.Walk(waypoint, gameObject, groundCheck, playerModel, rb);
                 animator.SetFloat("SpeedMultiplier", distanceFromWaypoint);
                 customDamping.CustomDamping(rb);
@@ -160,12 +160,11 @@ public class PlayerController : MonoBehaviour
                     ChangeState(PlayerStates.Idle);
                     return;
                 }
-                AllowCamControl = true;
+                RotatePlayerWithCamera = true;
                 run.Run(waypoint, gameObject, groundCheck, playerModel, rb);
                 customDamping.CustomDamping(rb);
                 break;
 
-            //TODO: Fix that when jumping from either walk or run, go in that same speed in the air, and don't allow change.
             case PlayerStates.Jump:
                 if (hitGround && isJumping == true)
                 {
@@ -182,7 +181,7 @@ public class PlayerController : MonoBehaviour
                     run.Run(waypoint, gameObject, groundCheck, playerModel, rb);
                 }
                 customDamping.CustomDamping(rb);
-                AllowCamControl = true;
+                RotatePlayerWithCamera = true;
 
                 // FASTER DOWNFORCE
                 if (rb.linearVelocity.y < 0)
@@ -206,7 +205,7 @@ public class PlayerController : MonoBehaviour
                 jumpButtonPressed = false;
                 walk.Walk(waypoint, gameObject, groundCheck, playerModel, rb);
                 customDamping.CustomDamping(rb);
-                AllowCamControl = true;
+                RotatePlayerWithCamera = true;
                 break;
         }
     }

@@ -68,7 +68,7 @@ public class CameraControls : MonoBehaviour
     }
     void FixedUpdate()
     {
-        if (playerController.AllowCamControl && cameraMoving)
+        if (playerController.RotatePlayerWithCamera && cameraMoving)
         {
             playerModel.parent.GetComponent<Rigidbody>().rotation = Quaternion.Euler(playerModel.parent.rotation.x, totalRotX, playerModel.parent.rotation.z);
         }
@@ -83,7 +83,7 @@ public class CameraControls : MonoBehaviour
         // This means "player is running forward relative to camera view"
         bool movingForwardRelative = forwardDot > autoFollowBackwardsTolerance;
 
-        if (playerController.AllowCamControl && !cameraMoving && timeUntilFollow <= 0 && movingForwardRelative)
+        if (playerController.RotatePlayerWithCamera && !cameraMoving && timeUntilFollow <= 0 && movingForwardRelative)
         {
             autoRotX = Mathf.DeltaAngle(0, playerModel.rotation.eulerAngles.y);
             Quaternion autoTargetRot = Quaternion.Euler(autoRotYTarget, autoRotX, 0f);
