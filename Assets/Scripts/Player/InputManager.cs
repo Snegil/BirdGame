@@ -7,7 +7,7 @@ public class InputManager : MonoBehaviour
     Transform sphere;
 
     [SerializeField]
-    PlayerController playerController;
+    PlayerMovementController playerMovementController;
     [SerializeField]
     Transform playerModel;
 

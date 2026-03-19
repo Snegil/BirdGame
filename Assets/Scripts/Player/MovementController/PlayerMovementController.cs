@@ -3,9 +3,9 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(GroundCheck), typeof(Rigidbody), typeof(CustomLinearDamping))]
-public class PlayerController : MonoBehaviour
+public class PlayerMovementController : MonoBehaviour
 {
-    public delegate void PlayerStateUpdate(PlayerStates playerState);
+    public delegate void PlayerStateUpdate(PlayerStates playerState, bool rollerblades);
     public event PlayerStateUpdate PlayerStateChange;
 
     [Space, SerializeField]
@@ -32,8 +32,6 @@ public class PlayerController : MonoBehaviour
     PlayerStateRun run;
     [SerializeField]
     PlayerStateJump jump;
-    [SerializeField]
-    PlayerStateAttack attack;
 
     [Space, Space]
 
@@ -67,6 +65,9 @@ public class PlayerController : MonoBehaviour
     bool hitGround;
 
     PlayerStates stateWhenJumpInput;
+
+    [SerializeField]
+    Transform attackOrigin;
 
     void Start()
     {
@@ -213,15 +214,10 @@ public class PlayerController : MonoBehaviour
     void ChangeState(PlayerStates state)
     {
         playerState = state;
-        PlayerStateChange?.Invoke(state);
+        // TODO: CHANGE ALL THESE TO WORK WITH SENDING ROLLERBLADES BOOL AND SPLIT ROLLERBLADES INTO PLAYERANIMATIONCONTROLLER.
+        //PlayerStateChange?.Invoke(state);
     }
 
-    public void AttackInput(InputAction.CallbackContext context)
-    {
-        if (!context.started || isJumping) return;
-        attack.Attack();
-        animator.SetTrigger("Attack");
-    }
     public void JumpInput(InputAction.CallbackContext context)
     {
         if (!context.started || !groundCheck.GroundedCheck(0.1f)) return;

@@ -23,7 +23,6 @@ public class JumpPad : MonoBehaviour
         Rigidbody collisionObjectRB = other.GetComponent<Rigidbody>();
 
         collisionObjectRB.linearVelocity = new Vector3(0, jumpPower, 0);
-        Debug.Log(collisionObjectRB.linearVelocity);
         StartCoroutine(CooldownRoutine());
     }
 

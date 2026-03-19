@@ -2,20 +2,20 @@ using UnityEngine;
 
 public class HitGroundEvent : MonoBehaviour
 {
-    PlayerController playerController;
+    PlayerMovementController playerMovementController;
 
     void Awake()
     {
-        playerController = transform.parent.GetComponent<PlayerController>();
+        playerMovementController = transform.parent.GetComponent<PlayerMovementController>();
     }
 
     void OnTriggerEnter(Collider other)
     {
         //Debug.Log("ENTERED TRIGGER");
-        playerController.HitGround(true);
+        playerMovementController.HitGround(true);
     }
     void OnTriggerExit(Collider other)
     {
-        playerController.HitGround(false);
+        playerMovementController.HitGround(false);
     }
 }

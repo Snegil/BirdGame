@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PlayerAnimationController : MonoBehaviour
 {
-    PlayerController playerController;
+    PlayerMovementController playerMovementController;
 
     [SerializeField]
     Animator animator;
@@ -16,17 +16,17 @@ public class PlayerAnimationController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
-        playerController = GetComponent<PlayerController>();
+        playerMovementController = GetComponent<PlayerMovementController>();
         groundCheck = GetComponent<GroundCheck>();
     }
 
     void OnEnable()
     {
-        playerController.PlayerStateChange += AnimationUpdate;
+        playerMovementController.PlayerStateChange += AnimationUpdate;
     }
     void OnDisable()
     {
-        playerController.PlayerStateChange -= AnimationUpdate;
+        playerMovementController.PlayerStateChange -= AnimationUpdate;
     }
 
     void Update()
@@ -35,8 +35,9 @@ public class PlayerAnimationController : MonoBehaviour
         animator.SetFloat("DistanceToGround", distance);
     }
 
-    void AnimationUpdate(PlayerStates state)
+    void AnimationUpdate(PlayerStates state, bool rollerblades)
     {
+        animator.SetBool("Rollerblade", rollerblades);
         switch (state)
         {
             case PlayerStates.Idle:
