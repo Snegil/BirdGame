@@ -48,11 +48,11 @@ public class PlayerMovementController : MonoBehaviour
     [SerializeField]
     float rollerbladeCD = 10f;
     float setRollerbladeCD;
-
+    bool rollerbladeToggle = false;
     [SerializeField]
-    List<GameObject> RegularBoots = new();
+    GameObject uggs;
     [SerializeField]
-    GameObject Rollerblades;
+    GameObject rollerblades;
 
     [SerializeField]
     float fasterDownwardforce = 0.2f;
@@ -88,8 +88,6 @@ public class PlayerMovementController : MonoBehaviour
         movementDirection.Normalize(); // Normalize the direction vector
 
         float distanceFromWaypoint = Vector3.Distance(waypoint.position, transform.position);
-
-        //Debug.Log(distanceFromWaypoint + "| Unclamped: " + Vector3.Distance(waypoint.position, transform.position));
 
         switch (playerState)
         {
@@ -143,7 +141,6 @@ public class PlayerMovementController : MonoBehaviour
                 // IF JUMP BUTTON HAS BEEN PRESSED, CHANGE STATE TO JUMP.
                 if (jumpButtonPressed)
                 {
-                    //Debug.Log("JUMP BUTTON PRESSED ENTERED IN RUN CASE");
                     ChangeState(PlayerStates.Jump);
                     jumpButtonPressed = false;
                     return;
@@ -151,7 +148,6 @@ public class PlayerMovementController : MonoBehaviour
                 // IF ISRUNNING == FALSE, CHANGE STATE TO WALK.
                 if (!isRunning)
                 {
-                    //Debug.Log("IS NOT RUNNING");
                     ChangeState(PlayerStates.Walk);
                     return;
                 }
@@ -214,8 +210,7 @@ public class PlayerMovementController : MonoBehaviour
     void ChangeState(PlayerStates state)
     {
         playerState = state;
-        // TODO: CHANGE ALL THESE TO WORK WITH SENDING ROLLERBLADES BOOL AND SPLIT ROLLERBLADES INTO PLAYERANIMATIONCONTROLLER.
-        //PlayerStateChange?.Invoke(state);
+        PlayerStateChange?.Invoke(state, rollerbladeToggle);
     }
 
     public void JumpInput(InputAction.CallbackContext context)
@@ -237,16 +232,14 @@ public class PlayerMovementController : MonoBehaviour
 
         if (rollerbladeCD > 0 && !customDamping.DampingEnabled) return;
 
-        animator.SetBool("Rollerblade", !animator.GetBool("Rollerblade"));
-        customDamping.DampingEnabled = !customDamping.DampingEnabled;
+        rollerbladeToggle = !rollerbladeToggle;
+        customDamping.DampingEnabled = rollerbladeToggle;
         rollerbladeCD = setRollerbladeCD;
 
-        for (int i = 0; i < RegularBoots.Count; i++)
-        {
-            RegularBoots[i].SetActive(!customDamping.DampingEnabled);
-        }
-        Rollerblades.SetActive(customDamping.DampingEnabled);
+        uggs.SetActive(!rollerbladeToggle);
+        rollerblades.SetActive(rollerbladeToggle);
     }
+
     public void HitGround(bool value)
     {
         hitGround = value;
