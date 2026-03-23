@@ -1,8 +1,7 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(GroundCheck), typeof(Rigidbody), typeof(CustomLinearDamping))]
+[RequireComponent(typeof(GroundCheck), typeof(Rigidbody))]
 public class PlayerMovementController : MonoBehaviour
 {
     public delegate void PlayerStateUpdate(PlayerStates playerState, bool rollerblades);
@@ -37,8 +36,6 @@ public class PlayerMovementController : MonoBehaviour
 
     bool isRunning = false;
 
-    CustomLinearDamping customDamping;
-
     GroundCheck groundCheck;
     Rigidbody rb;
 
@@ -66,9 +63,6 @@ public class PlayerMovementController : MonoBehaviour
 
     PlayerStates stateWhenJumpInput;
 
-    [SerializeField]
-    Transform attackOrigin;
-
     void Start()
     {
         setRollerbladeCD = rollerbladeCD;
@@ -76,7 +70,6 @@ public class PlayerMovementController : MonoBehaviour
 
         groundCheck = GetComponent<GroundCheck>();
         rb = GetComponent<Rigidbody>();
-        customDamping = GetComponent<CustomLinearDamping>();
     }
 
     void FixedUpdate()
@@ -105,6 +98,7 @@ public class PlayerMovementController : MonoBehaviour
                     ChangeState(PlayerStates.Walk);
                     return;
                 }
+                if (groundCheck.GroundedCheck(0.25f) && !rollerbladeToggle) rb.linearVelocity = Vector3.zero;
                 RotatePlayerWithCamera = false;
                 idle.Idle(groundCheck);
 
@@ -134,7 +128,6 @@ public class PlayerMovementController : MonoBehaviour
                 RotatePlayerWithCamera = true;
                 walk.Walk(waypoint, gameObject, groundCheck, playerModel, rb);
                 animator.SetFloat("SpeedMultiplier", distanceFromWaypoint);
-                customDamping.CustomDamping(rb);
                 break;
 
             case PlayerStates.Run:
@@ -159,11 +152,10 @@ public class PlayerMovementController : MonoBehaviour
                 }
                 RotatePlayerWithCamera = true;
                 run.Run(waypoint, gameObject, groundCheck, playerModel, rb);
-                customDamping.CustomDamping(rb);
                 break;
 
             case PlayerStates.Jump:
-                if (hitGround && isJumping == true)
+                if (hitGround && isJumping)
                 {
                     ChangeState(PlayerStates.Land);
                     return;
@@ -177,7 +169,6 @@ public class PlayerMovementController : MonoBehaviour
                 {
                     run.Run(waypoint, gameObject, groundCheck, playerModel, rb);
                 }
-                customDamping.CustomDamping(rb);
                 RotatePlayerWithCamera = true;
 
                 // FASTER DOWNFORCE
@@ -201,7 +192,6 @@ public class PlayerMovementController : MonoBehaviour
                 isJumping = false;
                 jumpButtonPressed = false;
                 walk.Walk(waypoint, gameObject, groundCheck, playerModel, rb);
-                customDamping.CustomDamping(rb);
                 RotatePlayerWithCamera = true;
                 break;
         }
@@ -230,10 +220,9 @@ public class PlayerMovementController : MonoBehaviour
     {
         if (!context.started) return;
 
-        if (rollerbladeCD > 0 && !customDamping.DampingEnabled) return;
+        if (rollerbladeCD > 0) return;
 
         rollerbladeToggle = !rollerbladeToggle;
-        customDamping.DampingEnabled = rollerbladeToggle;
         rollerbladeCD = setRollerbladeCD;
 
         uggs.SetActive(!rollerbladeToggle);

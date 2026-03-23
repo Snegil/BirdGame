@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "PlayerStateWalk", menuName = "PlayerStates/PlayerStateWalk", order = 2)]
+[CreateAssetMenu(fileName = "PlayerStateWalk", menuName = "PlayerStates/PlayerStateWalk", order = 3)]
 public class PlayerStateWalk : ScriptableObject
 {
     [SerializeField]
@@ -11,6 +11,8 @@ public class PlayerStateWalk : ScriptableObject
 
     [SerializeField]
     float maxSpeed = 10;
+
+    CustomLinearDamping linearDamping = new();
 
     public void Walk(Transform waypoint, GameObject gameObject, GroundCheck groundCheck, GameObject playerModel, Rigidbody rb)
     {
@@ -30,5 +32,6 @@ public class PlayerStateWalk : ScriptableObject
             rb.AddForce(10 * airbourneSpeed * Mathf.Clamp(Vector3.Distance(gameObject.transform.position, waypoint.position), 0, 1) * walkSpeed * movementDirection);
         }
         rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, maxSpeed);
+        linearDamping.CustomDamping(rb);
     }
 }

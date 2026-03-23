@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "PlayerStateRun", menuName = "PlayerStates/PlayerStateRun", order = 3)]
+[CreateAssetMenu(fileName = "PlayerStateRun", menuName = "PlayerStates/PlayerStateRun", order = 4)]
 public class PlayerStateRun : ScriptableObject
 {
     [SerializeField]
@@ -11,6 +11,8 @@ public class PlayerStateRun : ScriptableObject
 
     [SerializeField]
     float maxSpeed = 10;
+
+    CustomLinearDamping linearDamping = new();
 
     public void Run(Transform waypoint, GameObject gameObject, GroundCheck groundCheck, GameObject playerModel, Rigidbody rb)
     {
@@ -30,5 +32,6 @@ public class PlayerStateRun : ScriptableObject
             rb.AddForce(10 * airbourneSpeed * Mathf.Clamp(Vector3.Distance(gameObject.transform.position, waypoint.position), 0, 1) * sprintSpeed * movementDirection);
         }
         rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, maxSpeed);
+        linearDamping.CustomDamping(rb);
     }
 }
