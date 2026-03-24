@@ -26,9 +26,9 @@ public class PlayerMovementController : MonoBehaviour
     [SerializeField]
     PlayerStateIdle idle;
     [SerializeField]
-    PlayerStateWalk walk;
+    PlayerStateMovement walk;
     [SerializeField]
-    PlayerStateRun run;
+    PlayerStateMovement run;
     [SerializeField]
     PlayerStateJump jump;
 
@@ -126,7 +126,7 @@ public class PlayerMovementController : MonoBehaviour
                     return;
                 }
                 RotatePlayerWithCamera = true;
-                walk.Walk(waypoint, gameObject, groundCheck, playerModel, rb);
+                walk.Move(waypoint, gameObject, groundCheck, playerModel, rb);
                 animator.SetFloat("SpeedMultiplier", distanceFromWaypoint);
                 break;
 
@@ -151,7 +151,11 @@ public class PlayerMovementController : MonoBehaviour
                     return;
                 }
                 RotatePlayerWithCamera = true;
-                run.Run(waypoint, gameObject, groundCheck, playerModel, rb);
+                run.Move(waypoint, gameObject, groundCheck, playerModel, rb);
+                break;
+
+            case PlayerStates.Rollerblades:
+
                 break;
 
             case PlayerStates.Jump:
@@ -163,11 +167,11 @@ public class PlayerMovementController : MonoBehaviour
 
                 if (stateWhenJumpInput == PlayerStates.Walk)
                 {
-                    walk.Walk(waypoint, gameObject, groundCheck, playerModel, rb);
+                    walk.Move(waypoint, gameObject, groundCheck, playerModel, rb);
                 }
                 else
                 {
-                    run.Run(waypoint, gameObject, groundCheck, playerModel, rb);
+                    run.Move(waypoint, gameObject, groundCheck, playerModel, rb);
                 }
                 RotatePlayerWithCamera = true;
 
@@ -191,7 +195,7 @@ public class PlayerMovementController : MonoBehaviour
                 ChangeState(PlayerStates.Idle);
                 isJumping = false;
                 jumpButtonPressed = false;
-                walk.Walk(waypoint, gameObject, groundCheck, playerModel, rb);
+                walk.Move(waypoint, gameObject, groundCheck, playerModel, rb);
                 RotatePlayerWithCamera = true;
                 break;
         }
