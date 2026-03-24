@@ -82,6 +82,8 @@ public class PlayerMovementController : MonoBehaviour
 
         float distanceFromWaypoint = Vector3.Distance(waypoint.position, transform.position);
 
+        // TODO: MOVE ALL LOGIC TO THEIR OWN FUNCTION AND MAKE THE SWITCH STATEMENT READABLE.
+
         switch (playerState)
         {
             case PlayerStates.Idle:
