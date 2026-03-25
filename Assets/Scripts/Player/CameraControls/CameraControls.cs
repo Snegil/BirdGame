@@ -46,7 +46,8 @@ public class CameraControls : MonoBehaviour
         sensitivity = mouseSensitivity;
         setTimeUntilFollow = timeUntilFollow;
     }
-    void LateUpdate()
+
+    void FixedUpdate()
     {
         totalRotX += mouseDelta.x * sensitivity * Time.deltaTime;
         totalRotY += mouseDelta.y * sensitivity * Time.deltaTime;
@@ -65,9 +66,7 @@ public class CameraControls : MonoBehaviour
         Debug.DrawRay(playerModel.position, playerModel.forward, Color.yellow);
         Debug.DrawRay(playerModel.parent.position, playerModel.parent.forward, Color.cyan);
         Debug.DrawRay(transform.position, transform.forward, Color.magenta);
-    }
-    void FixedUpdate()
-    {
+
         if (playerMovementController.RotatePlayerWithCamera && cameraMoving)
         {
             playerModel.parent.GetComponent<Rigidbody>().rotation = Quaternion.Euler(playerModel.parent.rotation.x, totalRotX, playerModel.parent.rotation.z);
