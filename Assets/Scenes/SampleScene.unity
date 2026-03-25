@@ -1865,6 +1865,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7452319082888673597, guid: 14499d60c08f28941908e0ffa4e86925, type: 3}
+      propertyPath: rollerblade
+      value: 
+      objectReference: {fileID: 11400000, guid: 1157def5f5c335e4abcd66fbf3cf753f, type: 2}
     - target: {fileID: 8950455801057658938, guid: 14499d60c08f28941908e0ffa4e86925, type: 3}
       propertyPath: m_IsActive
       value: 0

@@ -30,6 +30,8 @@ public class PlayerMovementController : MonoBehaviour
     [SerializeField]
     PlayerStateMovement run;
     [SerializeField]
+    PlayerStateMovement rollerblade;
+    [SerializeField]
     PlayerStateJump jump;
 
     [Space, Space]
@@ -63,6 +65,8 @@ public class PlayerMovementController : MonoBehaviour
 
     PlayerStates stateWhenJumpInput;
 
+    float distanceFromWaypoint;
+
     void Start()
     {
         setRollerbladeCD = rollerbladeCD;
@@ -80,128 +84,188 @@ public class PlayerMovementController : MonoBehaviour
         movementDirection.y = 0; // Set the y value to 0 to prevent vertical movement
         movementDirection.Normalize(); // Normalize the direction vector
 
-        float distanceFromWaypoint = Vector3.Distance(waypoint.position, transform.position);
-
-        // TODO: MOVE ALL LOGIC TO THEIR OWN FUNCTION AND MAKE THE SWITCH STATEMENT READABLE.
+        distanceFromWaypoint = Vector3.Distance(waypoint.position, transform.position);
 
         switch (playerState)
         {
             case PlayerStates.Idle:
-                // IF JUMP BUTTON HAS BEEN PRESSED, CHANGE STATE TO JUMP.
-                if (jumpButtonPressed)
-                {
-                    //Debug.Log("JUMP BUTTON PRESSED ENTERED IN IDLE CASE");
-                    ChangeState(PlayerStates.Jump);
-                }
-
-                // IF DISTANCE FROM THE WAYPOINT MOVED BY INPUTMANAGER.CS IS GREATER THAN OR EQUAL TO DEADZONE VARIABLE, CHANGE STATE TO WALK.
-                if (distanceFromWaypoint > deadZone)
-                {
-                    ChangeState(PlayerStates.Walk);
-                    return;
-                }
-                if (groundCheck.GroundedCheck(0.25f) && !rollerbladeToggle) rb.linearVelocity = Vector3.zero;
-                RotatePlayerWithCamera = false;
-                idle.Idle(groundCheck);
-
+                Idle();
                 break;
 
             case PlayerStates.Walk:
-                // IF JUMP BUTTON HAS BEEN PRESSED, CHANGE STATE TO JUMP.
-                if (jumpButtonPressed)
-                {
-                    //Debug.Log("JUMP BUTTON PRESSED ENTERED IN WALK CASE");
-                    ChangeState(PlayerStates.Jump);
-                    return;
-                }
-                // IF ISRUNNING == TRUE, CHANGE STATE TO RUN.
-                if (isRunning)
-                {
-                    //Debug.Log("IS RUNNING");
-                    ChangeState(PlayerStates.Run);
-                    return;
-                }
-                // IF DISTANCE FROM THE WAYPOINT MOVED BY INPUTMANAGER.CS IS LESS THAN DEADZON VARIABLE, CHANGE STATE TO IDLE.
-                if (distanceFromWaypoint < deadZone)
-                {
-                    ChangeState(PlayerStates.Idle);
-                    return;
-                }
-                RotatePlayerWithCamera = true;
-                walk.Move(waypoint, gameObject, groundCheck, playerModel, rb);
-                animator.SetFloat("SpeedMultiplier", distanceFromWaypoint);
+                Walk();
                 break;
 
             case PlayerStates.Run:
-                // IF JUMP BUTTON HAS BEEN PRESSED, CHANGE STATE TO JUMP.
-                if (jumpButtonPressed)
-                {
-                    ChangeState(PlayerStates.Jump);
-                    jumpButtonPressed = false;
-                    return;
-                }
-                // IF ISRUNNING == FALSE, CHANGE STATE TO WALK.
-                if (!isRunning)
-                {
-                    ChangeState(PlayerStates.Walk);
-                    return;
-                }
-                // IF DISTANCE FROM THE WAYPOINT MOVED BY INPUTMANAGER.CS IS LESS THAN DEADZON VARIABLE, CHANGE STATE TO IDLE.
-                if (distanceFromWaypoint <= deadZone)
-                {
-                    ChangeState(PlayerStates.Idle);
-                    return;
-                }
-                RotatePlayerWithCamera = true;
-                run.Move(waypoint, gameObject, groundCheck, playerModel, rb);
+                Run();
                 break;
 
             case PlayerStates.Rollerblades:
-
+                Rollerblade();
                 break;
 
             case PlayerStates.Jump:
-                if (hitGround && isJumping)
-                {
-                    ChangeState(PlayerStates.Land);
-                    return;
-                }
-
-                if (stateWhenJumpInput == PlayerStates.Walk)
-                {
-                    walk.Move(waypoint, gameObject, groundCheck, playerModel, rb);
-                }
-                else
-                {
-                    run.Move(waypoint, gameObject, groundCheck, playerModel, rb);
-                }
-                RotatePlayerWithCamera = true;
-
-                // FASTER DOWNFORCE
-                if (rb.linearVelocity.y < 0)
-                {
-                    rb.linearVelocity = new Vector3(rb.linearVelocity.x, rb.linearVelocity.y * (1 + fasterDownwardforce), rb.linearVelocity.z);
-                }
-
-                // IF NOT JUMPING, JUMP
-                if (!isJumping)
-                {
-                    jump.Jump(rb);
-                    isJumping = true;
-                    hitGround = false;
-                }
-
+                Jump();
                 break;
 
             case PlayerStates.Land:
-                ChangeState(PlayerStates.Idle);
-                isJumping = false;
-                jumpButtonPressed = false;
-                walk.Move(waypoint, gameObject, groundCheck, playerModel, rb);
-                RotatePlayerWithCamera = true;
+                Land();
                 break;
         }
     }
+
+    void Idle()
+    {
+        // IF JUMP BUTTON HAS BEEN PRESSED, CHANGE STATE TO JUMP.
+        if (jumpButtonPressed)
+        {
+            //Debug.Log("JUMP BUTTON PRESSED ENTERED IN IDLE CASE");
+            ChangeState(PlayerStates.Jump);
+        }
+
+        // IF DISTANCE FROM THE WAYPOINT MOVED BY INPUTMANAGER.CS IS GREATER THAN OR EQUAL TO DEADZONE VARIABLE, CHANGE STATE TO WALK.
+        if (distanceFromWaypoint > deadZone)
+        {
+            ChangeState(PlayerStates.Walk);
+            return;
+        }
+        if (groundCheck.GroundedCheck(0.25f) && !rollerbladeToggle) rb.linearVelocity = Vector3.zero;
+        RotatePlayerWithCamera = false;
+        idle.Idle(groundCheck);
+    }
+
+    void Walk()
+    {
+        // IF JUMP BUTTON HAS BEEN PRESSED, CHANGE STATE TO JUMP.
+        if (jumpButtonPressed)
+        {
+            //Debug.Log("JUMP BUTTON PRESSED ENTERED IN WALK CASE");
+            ChangeState(PlayerStates.Jump);
+            return;
+        }
+        // IF ISRUNNING == TRUE, CHANGE STATE TO RUN.
+        if (isRunning)
+        {
+            //Debug.Log("IS RUNNING");
+            ChangeState(PlayerStates.Run);
+            return;
+        }
+        // IF DISTANCE FROM THE WAYPOINT MOVED BY INPUTMANAGER.CS IS LESS THAN DEADZON VARIABLE, CHANGE STATE TO IDLE.
+        if (distanceFromWaypoint < deadZone)
+        {
+            ChangeState(PlayerStates.Idle);
+            return;
+        }
+        if (rollerbladeToggle)
+        {
+            ChangeState(PlayerStates.Rollerblades);
+            return;
+        }
+        RotatePlayerWithCamera = true;
+        walk.Move(waypoint, gameObject, groundCheck, playerModel, rb);
+        animator.SetFloat("SpeedMultiplier", distanceFromWaypoint);
+    }
+
+    void Run()
+    {
+        // IF JUMP BUTTON HAS BEEN PRESSED, CHANGE STATE TO JUMP.
+        if (jumpButtonPressed)
+        {
+            ChangeState(PlayerStates.Jump);
+            jumpButtonPressed = false;
+            return;
+        }
+        // IF ISRUNNING == FALSE, CHANGE STATE TO WALK.
+        if (!isRunning)
+        {
+            ChangeState(PlayerStates.Walk);
+            return;
+        }
+        // IF DISTANCE FROM THE WAYPOINT MOVED BY INPUTMANAGER.CS IS LESS THAN DEADZON VARIABLE, CHANGE STATE TO IDLE.
+        if (distanceFromWaypoint <= deadZone)
+        {
+            ChangeState(PlayerStates.Idle);
+            return;
+        }
+        if (rollerbladeToggle)
+        {
+            ChangeState(PlayerStates.Rollerblades);
+            return;
+        }
+        RotatePlayerWithCamera = true;
+        run.Move(waypoint, gameObject, groundCheck, playerModel, rb);
+    }
+
+    void Rollerblade()
+    {
+        // IF JUMP BUTTON HAS BEEN PRESSED, CHANGE STATE TO JUMP.
+        if (jumpButtonPressed)
+        {
+            ChangeState(PlayerStates.Jump);
+            jumpButtonPressed = false;
+            return;
+        }
+        // IF DISTANCE FROM THE WAYPOINT MOVED BY INPUTMANAGER.CS IS LESS THAN DEADZON VARIABLE, CHANGE STATE TO IDLE.
+        if (distanceFromWaypoint <= deadZone)
+        {
+            ChangeState(PlayerStates.Idle);
+            return;
+        }
+        if (!rollerbladeToggle)
+        {
+            ChangeState(PlayerStates.Run);
+            return;
+        }
+        RotatePlayerWithCamera = true;
+        rollerblade.Move(waypoint, gameObject, groundCheck, playerModel, rb);
+    }
+
+    void Jump()
+    {
+        if (hitGround && isJumping)
+        {
+            ChangeState(PlayerStates.Land);
+            return;
+        }
+
+        if (stateWhenJumpInput == PlayerStates.Walk)
+        {
+            walk.Move(waypoint, gameObject, groundCheck, playerModel, rb);
+        }
+        else if (stateWhenJumpInput == PlayerStates.Run)
+        {
+            run.Move(waypoint, gameObject, groundCheck, playerModel, rb);
+        }
+        else
+        {
+            rollerblade.Move(waypoint, gameObject, groundCheck, playerModel, rb);
+        }
+        RotatePlayerWithCamera = true;
+
+        // FASTER DOWNFORCE
+        if (rb.linearVelocity.y < 0)
+        {
+            rb.linearVelocity = new Vector3(rb.linearVelocity.x, rb.linearVelocity.y * (1 + fasterDownwardforce), rb.linearVelocity.z);
+        }
+
+        // IF NOT JUMPING, JUMP
+        if (!isJumping)
+        {
+            jump.Jump(rb);
+            isJumping = true;
+            hitGround = false;
+        }
+    }
+
+    void Land()
+    {
+        ChangeState(PlayerStates.Idle);
+        isJumping = false;
+        jumpButtonPressed = false;
+        walk.Move(waypoint, gameObject, groundCheck, playerModel, rb);
+        RotatePlayerWithCamera = true;
+    }
+
 
     void ChangeState(PlayerStates state)
     {
