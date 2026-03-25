@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -20,6 +21,7 @@ public class PlayerMovementController : MonoBehaviour
     Transform waypoint;
 
     bool isJumping = false;
+    public bool IsJumping { get { return isJumping; } }
 
     [Space, Space]
 
