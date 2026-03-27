@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -230,9 +231,10 @@ public class PlayerMovementController : MonoBehaviour
             return;
         }
 
-        if (stateWhenJumpInput == PlayerStates.Walk)
+        if (stateWhenJumpInput == PlayerStates.Rollerblades)
         {
-            walk.Move(waypoint, gameObject, groundCheck, playerModel, rb);
+            rollerblade.Move(waypoint, gameObject, groundCheck, playerModel, rb);
+
         }
         else if (stateWhenJumpInput == PlayerStates.Run)
         {
@@ -240,7 +242,7 @@ public class PlayerMovementController : MonoBehaviour
         }
         else
         {
-            rollerblade.Move(waypoint, gameObject, groundCheck, playerModel, rb);
+            walk.Move(waypoint, gameObject, groundCheck, playerModel, rb);
         }
         RotatePlayerWithCamera = true;
 
@@ -253,8 +255,9 @@ public class PlayerMovementController : MonoBehaviour
         // IF NOT JUMPING, JUMP
         if (!isJumping)
         {
-            jump.Jump(rb);
             isJumping = true;
+            jump.Jump(rb);
+            jumpButtonPressed = false;
             hitGround = false;
         }
     }
@@ -263,7 +266,6 @@ public class PlayerMovementController : MonoBehaviour
     {
         ChangeState(PlayerStates.Idle);
         isJumping = false;
-        jumpButtonPressed = false;
         walk.Move(waypoint, gameObject, groundCheck, playerModel, rb);
         RotatePlayerWithCamera = true;
     }
@@ -277,8 +279,8 @@ public class PlayerMovementController : MonoBehaviour
 
     public void JumpInput(InputAction.CallbackContext context)
     {
-        if (!context.started || !groundCheck.GroundedCheck(0.1f)) return;
-        stateWhenJumpInput = playerState;
+        if (!context.started) return;
+        stateWhenJumpInput = playerState == PlayerStates.Jump ? PlayerStates.Walk : playerState;
         jumpButtonPressed = true;
     }
 

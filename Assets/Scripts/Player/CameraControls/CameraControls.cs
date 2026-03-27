@@ -1,3 +1,5 @@
+using System;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -80,7 +82,9 @@ public class CameraControls : MonoBehaviour
         float forwardDot = Vector3.Dot(camForward, playerForward);
 
         // This means "player is running forward relative to camera view"
+        // Stops the camera and player to have different forward directions causing the controls to be inverted.
         bool movingForwardRelative = forwardDot > autoFollowBackwardsTolerance;
+        //Debug.Log(movingForwardRelative + " " + Math.Round(forwardDot, 2) + " | " + autoFollowBackwardsTolerance);
 
         if (playerMovementController.RotatePlayerWithCamera && !cameraMoving && timeUntilFollow <= 0 && movingForwardRelative)
         {

@@ -8,6 +8,6 @@ public class PlayerStateJump : ScriptableObject
 
     public void Jump(Rigidbody rb)
     {
-        rb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
+        rb.AddForce(rb.transform.up * jumpPower, ForceMode.Impulse);
     }
 }
