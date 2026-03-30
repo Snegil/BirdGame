@@ -528,7 +528,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e202812c08920045877722862fb897b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouseSensitivity: 25
+  mouseSensitivity: 0.5
   controllerSensitivity: 200
   timeUntilFollow: 2
   rotationLimitY: {x: -15, y: 70}
@@ -752,6 +752,7 @@ Transform:
   - {fileID: 3215512977290708090}
   - {fileID: 2919226306402649633}
   - {fileID: 3196479841455316505}
+  - {fileID: 317316185880507866}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2538829792282114262
@@ -1791,7 +1792,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -1799,6 +1800,50 @@ CapsuleCollider:
   m_Height: 0.31734976
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &6396192620568027345
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 317316185880507866}
+  - component: {fileID: 746580205212443407}
+  m_Layer: 0
+  m_Name: QuickQuit
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &317316185880507866
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6396192620568027345}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4423214203750718788}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &746580205212443407
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6396192620568027345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04bba950d6558b145bd91e78c6c25d85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6514217153761380046
 GameObject:
   m_ObjectHideFlags: 0
@@ -2661,6 +2706,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 5caeef7d-9ec5-4610-89c0-aee4fa182c09
     m_ActionName: 'Player/Attack[/DualShock4GamepadHID/buttonWest]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 746580205212443407}
+        m_TargetAssemblyTypeName: QuickQuit, Assembly-CSharp
+        m_MethodName: Quit
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 43505d4c-bc7b-4573-9429-5908dd153a99
+    m_ActionName: 'GameControls/Quit[/Keyboard/escape,/DualShock4GamepadHID/start]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -2705,6 +2766,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34c0b324579924e499b8ecbd6f757ccb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 2086551367160491263}
+  yOffset: 0.2
+  interactMask:
+    serializedVersion: 2
+    m_Bits: 512
+  interactDistance: 0.6
 --- !u!114 &7452319082888673597
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2723,6 +2790,7 @@ MonoBehaviour:
   idle: {fileID: 11400000, guid: 1d2caa8d518318c4d8871d246e380d36, type: 2}
   walk: {fileID: 11400000, guid: 3d476dc5112d4854c9d227c113ca072b, type: 2}
   run: {fileID: 11400000, guid: c40c2e0f7c880194e9489ac5fc0ef5b4, type: 2}
+  rollerblade: {fileID: 11400000, guid: 1157def5f5c335e4abcd66fbf3cf753f, type: 2}
   jump: {fileID: 11400000, guid: e3b2ec35be6fc2849b27de12617e21d1, type: 2}
   playerModel: {fileID: 5688101488398264340}
   rollerbladeCD: 5
@@ -2746,7 +2814,7 @@ MonoBehaviour:
   boxCastSize: {x: 0.1, y: 0.1, z: 0.1}
   layerMask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 631
 --- !u!114 &9078426388554535173
 MonoBehaviour:
   m_ObjectHideFlags: 0

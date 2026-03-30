@@ -36,6 +36,9 @@ public class CameraControls : MonoBehaviour
     [SerializeField]
     float autoFollowBackwardsTolerance = 0.1f;
 
+    Transform playerTransform;
+    Rigidbody playerRB;
+
     [Space, SerializeField]
     Transform playerModel;
 
@@ -47,6 +50,9 @@ public class CameraControls : MonoBehaviour
     {
         sensitivity = mouseSensitivity;
         setTimeUntilFollow = timeUntilFollow;
+
+        playerRB = playerModel.parent.GetComponent<Rigidbody>();
+        playerTransform = playerModel.parent.transform;
     }
 
     void FixedUpdate()
@@ -65,13 +71,15 @@ public class CameraControls : MonoBehaviour
             transform.rotation = Quaternion.Euler(-totalRotY, totalRotX, 0f);
             timeUntilFollow = setTimeUntilFollow;
         }
+
+        // Debug drawrays to visualise the different forward directions
         Debug.DrawRay(playerModel.position, playerModel.forward, Color.yellow);
-        Debug.DrawRay(playerModel.parent.position, playerModel.parent.forward, Color.cyan);
+        Debug.DrawRay(playerTransform.position, playerTransform.forward, Color.cyan);
         Debug.DrawRay(transform.position, transform.forward, Color.magenta);
 
         if (playerMovementController.RotatePlayerWithCamera && cameraMoving)
         {
-            playerModel.parent.GetComponent<Rigidbody>().rotation = Quaternion.Euler(playerModel.parent.rotation.x, totalRotX, playerModel.parent.rotation.z);
+            playerRB.rotation = Quaternion.Euler(playerRB.rotation.x, totalRotX, playerTransform.rotation.z);
         }
 
         if (!smartCamera) return;
@@ -81,17 +89,21 @@ public class CameraControls : MonoBehaviour
 
         float forwardDot = Vector3.Dot(camForward, playerForward);
 
+        //Debug.Log(movingForwardRelative + " " + Math.Round(forwardDot, 2) + " | " + autoFollowBackwardsTolerance);
+
         // This means "player is running forward relative to camera view"
         // Stops the camera and player to have different forward directions causing the controls to be inverted.
         bool movingForwardRelative = forwardDot > autoFollowBackwardsTolerance;
-        //Debug.Log(movingForwardRelative + " " + Math.Round(forwardDot, 2) + " | " + autoFollowBackwardsTolerance);
 
         if (playerMovementController.RotatePlayerWithCamera && !cameraMoving && timeUntilFollow <= 0 && movingForwardRelative)
         {
             autoRotX = Mathf.DeltaAngle(0, playerModel.rotation.eulerAngles.y);
             Quaternion autoTargetRot = Quaternion.Euler(autoRotYTarget, autoRotX, 0f);
 
-            playerModel.parent.GetComponent<Rigidbody>().rotation = Quaternion.Lerp(playerModel.parent.GetComponent<Rigidbody>().rotation, autoTargetRot, Time.deltaTime * lerpSpeed);
+            // Rotate the player towards the autotarget.
+            playerRB.rotation = Quaternion.Lerp(playerRB.rotation, autoTargetRot, Time.deltaTime * lerpSpeed);
+            // rotate Camera Parent towards the player rotation.
+            // TODO: May not need lerp.
             transform.rotation = Quaternion.Lerp(transform.rotation, playerModel.rotation, Time.deltaTime * lerpSpeed);
 
             totalRotX = Mathf.DeltaAngle(0, transform.rotation.eulerAngles.y);

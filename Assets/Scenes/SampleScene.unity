@@ -5883,6 +5883,17 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.64248943, y: 0.7975459, z: 0.5017815}
   m_Center: {x: -0.000000029802322, y: 0.5580406, z: 0.07632941}
+--- !u!114 &823283821 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 746580205212443407, guid: 14499d60c08f28941908e0ffa4e86925, type: 3}
+  m_PrefabInstance: {fileID: 6611868198574263972}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04bba950d6558b145bd91e78c6c25d85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -6246,16 +6257,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68198d7ab458dec4d9a3f4c7b604cee0, type: 3}
---- !u!95 &1178708931 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 2086551367160491263, guid: 14499d60c08f28941908e0ffa4e86925, type: 3}
-  m_PrefabInstance: {fileID: 6611868198574263972}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1178708934 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5024858875168895662, guid: 14499d60c08f28941908e0ffa4e86925, type: 3}
-  m_PrefabInstance: {fileID: 6611868198574263972}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1253034627
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11801,18 +11802,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 865946143597768614, guid: 14499d60c08f28941908e0ffa4e86925, type: 3}
-      propertyPath: mouseSensitivity
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1183916188170176069, guid: 14499d60c08f28941908e0ffa4e86925, type: 3}
-      propertyPath: layerMask.m_Bits
-      value: 631
-      objectReference: {fileID: 0}
-    - target: {fileID: 2348352341385581451, guid: 14499d60c08f28941908e0ffa4e86925, type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2374140498818625271, guid: 14499d60c08f28941908e0ffa4e86925, type: 3}
       propertyPath: m_Name
       value: PlayerParent
@@ -11857,33 +11846,37 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6053639719406711841, guid: 14499d60c08f28941908e0ffa4e86925, type: 3}
-      propertyPath: yOffset
-      value: 0.2
+    - target: {fileID: 6616006341059506093, guid: 14499d60c08f28941908e0ffa4e86925, type: 3}
+      propertyPath: m_ActionEvents.Array.data[7].m_ActionId
+      value: f32cd90d-7a82-4fc8-ab87-d5908b8e90e9
       objectReference: {fileID: 0}
-    - target: {fileID: 6053639719406711841, guid: 14499d60c08f28941908e0ffa4e86925, type: 3}
-      propertyPath: animator
-      value: 
-      objectReference: {fileID: 1178708931}
-    - target: {fileID: 6053639719406711841, guid: 14499d60c08f28941908e0ffa4e86925, type: 3}
-      propertyPath: playerModel
-      value: 
-      objectReference: {fileID: 1178708934}
-    - target: {fileID: 6053639719406711841, guid: 14499d60c08f28941908e0ffa4e86925, type: 3}
-      propertyPath: interactDistance
-      value: 0.6
+    - target: {fileID: 6616006341059506093, guid: 14499d60c08f28941908e0ffa4e86925, type: 3}
+      propertyPath: m_ActionEvents.Array.data[7].m_ActionName
+      value: 'Player/Quit[/Keyboard/escape,/DualShock4GamepadHID/start]'
       objectReference: {fileID: 0}
-    - target: {fileID: 6053639719406711841, guid: 14499d60c08f28941908e0ffa4e86925, type: 3}
-      propertyPath: interactMask.m_Bits
-      value: 512
+    - target: {fileID: 6616006341059506093, guid: 14499d60c08f28941908e0ffa4e86925, type: 3}
+      propertyPath: m_ActionEvents.Array.data[7].m_PersistentCalls.m_Calls.Array.size
+      value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 7452319082888673597, guid: 14499d60c08f28941908e0ffa4e86925, type: 3}
-      propertyPath: rollerblade
-      value: 
-      objectReference: {fileID: 11400000, guid: 1157def5f5c335e4abcd66fbf3cf753f, type: 2}
-    - target: {fileID: 8950455801057658938, guid: 14499d60c08f28941908e0ffa4e86925, type: 3}
-      propertyPath: m_IsActive
+    - target: {fileID: 6616006341059506093, guid: 14499d60c08f28941908e0ffa4e86925, type: 3}
+      propertyPath: m_ActionEvents.Array.data[7].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6616006341059506093, guid: 14499d60c08f28941908e0ffa4e86925, type: 3}
+      propertyPath: m_ActionEvents.Array.data[7].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 823283821}
+    - target: {fileID: 6616006341059506093, guid: 14499d60c08f28941908e0ffa4e86925, type: 3}
+      propertyPath: m_ActionEvents.Array.data[7].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Quit
+      objectReference: {fileID: 0}
+    - target: {fileID: 6616006341059506093, guid: 14499d60c08f28941908e0ffa4e86925, type: 3}
+      propertyPath: m_ActionEvents.Array.data[7].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: QuickQuit, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6616006341059506093, guid: 14499d60c08f28941908e0ffa4e86925, type: 3}
+      propertyPath: m_ActionEvents.Array.data[7].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
