@@ -1,33 +1,41 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class CameraZoom : MonoBehaviour
 {
     [SerializeField]
-    Vector3[] zoomLevels;
+    float cameraZoomSpeed;
+    [SerializeField]
+    Vector3 minZoom;
+    [SerializeField]
+    Vector3 maxZoom;
 
-    int cameraZoomIndex = 0;
+    CameraTrigger cameraTrigger;
+
+    float lerpTime = 0;
+
+    [SerializeField]
+    float rayDistance = 0.1f;
+
+    [SerializeField]
+    float distanceTolerance = 0.1f;
+
+    [SerializeField]
+    LayerMask layerMask;
+
+    void Start()
+    {
+        cameraTrigger = GetComponent<CameraTrigger>();
+    }
 
     void LateUpdate()
     {
-        if (cameraZoomIndex >= zoomLevels.Length) return;
-        transform.localPosition = Vector3.Lerp(transform.localPosition, zoomLevels[cameraZoomIndex], Time.deltaTime);
-    }
+        // Physics.Raycast(transform.position, -transform.forward, out RaycastHit hit, rayDistance, layerMask);
+        // Debug.DrawRay(transform.position, -transform.forward * distanceTolerance, Color.yellow);
 
-    public void ChangeCameraZoom(InputAction.CallbackContext context)
-    {
-        if (!context.started) return;
+        if (!cameraTrigger.HitObject) { lerpTime -= Time.deltaTime * cameraZoomSpeed; }
+        else if (cameraTrigger.HitObject) { lerpTime += Time.deltaTime * cameraZoomSpeed; }
 
-
-        if (cameraZoomIndex < zoomLevels.Length)
-        {
-            cameraZoomIndex++;            
-        }
-        else
-        {
-            cameraZoomIndex = 0;
-        }
-
-        // if (cameraZoomIndex > zoomLevels.Length) cameraZoomIndex = 0;
+        lerpTime = Mathf.Clamp(lerpTime, 0, 1);
+        transform.localPosition = Vector3.Lerp(maxZoom, minZoom, lerpTime);
     }
 }

@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,6 +9,7 @@ public class PlayerMovementController : MonoBehaviour
 
     [Space, SerializeField]
     PlayerStates playerState;
+    public PlayerStates GetPlayerStates { get { return playerState; } }
 
     // Set to true if the player should rotate when moving the camera.
     public bool RotatePlayerWithCamera { get; set; } = false;
@@ -306,5 +305,11 @@ public class PlayerMovementController : MonoBehaviour
     public void HitGround(bool value)
     {
         hitGround = value;
+    }
+    public bool PlayerMoving()
+    {
+        if (playerState == PlayerStates.Idle) return false;
+
+        return true;
     }
 }

@@ -31,6 +31,7 @@ public class CameraControls : MonoBehaviour
     float totalRotY = 0;
 
     bool cameraMoving = false;
+    public bool CameraMoving { get { return cameraMoving; } }
     [Space, SerializeField]
     bool smartCamera = true;
     [SerializeField]
@@ -44,6 +45,7 @@ public class CameraControls : MonoBehaviour
 
     [SerializeField]
     PlayerMovementController playerMovementController;
+    public PlayerMovementController GetPlayerMovementController { get { return playerMovementController; } }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

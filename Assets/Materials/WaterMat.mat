@@ -28,6 +28,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: b95fc70f83ab2a04faeb3c6f736cc08a, type: 3}
         m_Scale: {x: 0.5, y: 0.5}
         m_Offset: {x: 0, y: 0}
+    - _Texture:
+        m_Texture: {fileID: 2800000, guid: f7a465c88b4956141a3b6946bcc719c4, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -45,8 +49,8 @@ Material:
     - _DepthFadeDistance: 0.1
     - _GradientScale: 20
     - _NoiseScale: 20
-    - _NormalMapScale: 0.1
-    - _NormalMapTimeScale: 0.001
+    - _NormalMapScale: 4
+    - _NormalMapTimeScale: 0.01
     - _QueueControl: 0
     - _QueueOffset: 0
     - _RadialStrength: 0.001
@@ -59,7 +63,7 @@ Material:
     m_Colors:
     - _Colour: {r: 0.33397108, g: 0.47264808, b: 0.745283, a: 0}
     - _DeepColour: {r: 0.21573514, g: 0.31839496, b: 0.4528302, a: 1}
-    - _OceanColour: {r: 0.25516194, g: 0.3377598, b: 0.8867924, a: 0.7490196}
+    - _OceanColour: {r: 0.077874675, g: 0.119177885, b: 0.4716981, a: 0.7490196}
     - _ShallowColour: {r: 0.37379846, g: 0.5355365, b: 0.75471693, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

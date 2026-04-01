@@ -274,15 +274,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
-                },
-                {
-                    "name": "CameraZoom",
-                    "type": "Button",
-                    "id": "d4280771-91cc-4d4f-8c44-f64cb0559632",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -351,17 +342,6 @@
                     "action": "DeltaMovement",
                     "isComposite": false,
                     "isPartOfComposite": true
-                },
-                {
-                    "name": "",
-                    "id": "fe7c02ab-6ff5-4c9c-b25d-014ccfa27217",
-                    "path": "<Gamepad>/rightStickPress",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "CameraZoom",
-                    "isComposite": false,
-                    "isPartOfComposite": false
                 }
             ]
         }
