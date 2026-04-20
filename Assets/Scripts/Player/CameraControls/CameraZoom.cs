@@ -11,8 +11,6 @@ public class CameraZoom : MonoBehaviour
 
     CameraTrigger cameraTrigger;
 
-    float lerpTime = 1;
-
     [SerializeField]
     float rayForwardDistance = 0.4f;
     [SerializeField]
@@ -27,6 +25,9 @@ public class CameraZoom : MonoBehaviour
     [SerializeField]
     CameraRay cameraRay;
 
+    [SerializeField]
+    Transform cameraParent;
+
     void Start()
     {
         cameraTrigger = GetComponent<CameraTrigger>();
@@ -35,11 +36,23 @@ public class CameraZoom : MonoBehaviour
     void LateUpdate()
     {
         RaycastHit hit = cameraRay.CameraPositionRay();
-        Vector3 point = hit.collider != null ? transform.parent.InverseTransformPoint(hit.point) : maxZoom;
+        Vector3 point = hit.collider != null ? hit.point : maxZoom;
+        Vector3 localPosPoint = hit.collider != null ? transform.parent.InverseTransformPoint(hit.point) : maxZoom;
 
-        Debug.Log(point);
+        Debug.Log(localPosPoint);
 
-        transform.localPosition = point;
+        float distanceToPoint = Vector3.Distance(cameraParent.position, point);
+        float distanceToCamera = Vector3.Distance(cameraParent.position, transform.position);
+
+        Debug.Log(distanceToPoint + " | " + distanceToCamera);
+
+        if (distanceToPoint > distanceToCamera)
+        {
+            transform.localPosition = Vector3.Lerp(transform.localPosition, localPosPoint, Time.deltaTime * cameraZoomSpeed);
+            return;
+        }
+
+        transform.localPosition = localPosPoint;
 
         //TODO: FIX LERP. CURRENTLY DOES NOT FUNCTION AS INTENDED; INTENDED WORKCASE IS WHEN ZOOMING IN, IT'S IMMEDIATE AND ZOOMING OUT IS LERP.
         //transform.localPosition = Vector3.Lerp(transform.localPosition, point, Time.deltaTime * cameraZoomSpeed);

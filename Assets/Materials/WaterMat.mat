@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: WaterMat
-  m_Shader: {fileID: -6465566751694194690, guid: 750d420f0ed4a164386b85485ef6bb63, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: e298487b89e65ed4a9448e3ff337450e, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -24,9 +24,17 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _NormalMap:
+        m_Texture: {fileID: 2800000, guid: 5e9108dc308683945a1a3814bcdeb672, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Normalmap:
         m_Texture: {fileID: 2800000, guid: b95fc70f83ab2a04faeb3c6f736cc08a, type: 3}
         m_Scale: {x: 0.5, y: 0.5}
+        m_Offset: {x: 0, y: 0}
+    - _OceanImage:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Texture:
         m_Texture: {fileID: 2800000, guid: f7a465c88b4956141a3b6946bcc719c4, type: 3}
@@ -48,22 +56,27 @@ Material:
     m_Floats:
     - _DepthFadeDistance: 0.1
     - _GradientScale: 20
-    - _NoiseScale: 20
+    - _HeightMultiplier: 0
+    - _NoiseScale: 10
     - _NormalMapScale: 4
-    - _NormalMapTimeScale: 0.01
+    - _NormalMapTimeScale: 0
+    - _PosterizeSteps: 1.5
     - _QueueControl: 0
     - _QueueOffset: 0
     - _RadialStrength: 0.001
     - _StepEdge: 1
     - _TimeMultiplier: 0.01
-    - _TimeScale: 0.01
-    - _WaveHeightMax: 2
-    - _WaveHeightMin: 1
+    - _TimeScale: 0.001
+    - _Timescale: 0.01
+    - _VoronoiAngleOffset: 100
+    - _VoronoiDensity: 50
+    - _WaveHeightMax: 5000
+    - _WaveHeightMin: 0
     - _minTest: 478.78
     m_Colors:
     - _Colour: {r: 0.33397108, g: 0.47264808, b: 0.745283, a: 0}
     - _DeepColour: {r: 0.21573514, g: 0.31839496, b: 0.4528302, a: 1}
-    - _OceanColour: {r: 0.077874675, g: 0.119177885, b: 0.4716981, a: 0.7490196}
+    - _OceanColour: {r: 0.04223035, g: 0.102646284, b: 0.6886792, a: 0.5019608}
     - _ShallowColour: {r: 0.37379846, g: 0.5355365, b: 0.75471693, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
