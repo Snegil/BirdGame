@@ -278,7 +278,7 @@ public class PlayerMovementController : MonoBehaviour
 
     public void JumpInput(InputAction.CallbackContext context)
     {
-        if (!context.started) return;
+        if (!context.started || isJumping == true) return;
         stateWhenJumpInput = playerState == PlayerStates.Jump ? PlayerStates.Walk : playerState;
         jumpButtonPressed = true;
     }
