@@ -12,6 +12,11 @@ public class PlayerStateMovement : ScriptableObject
     [SerializeField]
     float maxSpeed = 10;
 
+    [Space, SerializeField]
+    bool customFriction = false;
+    [SerializeField]
+    float frictionAmount = 0.85f;
+
     CustomLinearDamping linearDamping = new();
 
     public void Move(Transform waypoint, GameObject gameObject, GroundCheck groundCheck, GameObject playerModel, Rigidbody rb)
@@ -32,6 +37,11 @@ public class PlayerStateMovement : ScriptableObject
             rb.AddForce(10 * airbourneSpeed * Mathf.Clamp(Vector3.Distance(gameObject.transform.position, waypoint.position), 0, 1) * speed * movementDirection);
         }
         rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, maxSpeed);
-        linearDamping.CustomDamping(rb);
+        if (customFriction == false)
+        {
+            linearDamping.CustomDamping(rb);
+            return;
+        }
+        linearDamping.CustomDamping(rb, frictionAmount);
     }
 }

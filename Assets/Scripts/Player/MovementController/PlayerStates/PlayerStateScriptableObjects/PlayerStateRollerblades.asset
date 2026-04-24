@@ -15,3 +15,5 @@ MonoBehaviour:
   speed: 11.34
   airbourneSpeed: 0.75
   maxSpeed: 15
+  customFriction: 1
+  frictionAmount: 0.84

@@ -416,11 +416,12 @@ Transform:
   m_GameObject: {fileID: 1591030182497901258}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1.138}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5346038297614551389}
+  - {fileID: 8370181340419652821}
   m_Father: {fileID: 4423214203750718788}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6686027926417042336
@@ -477,25 +478,21 @@ MonoBehaviour:
     m_ActionId: 49c22ff7-e470-46c3-a45a-6b0a67ffd2ab
     m_ActionName: 'Player/LockCamera[/DualShock4GamepadHID/rightShoulder]'
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7523210933972626150}
-        m_TargetAssemblyTypeName: CameraZoom, Assembly-CSharp
-        m_MethodName: ChangeCameraZoom
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: d4280771-91cc-4d4f-8c44-f64cb0559632
     m_ActionName: 'Camera/CameraZoom[/DualShock4GamepadHID/rightStickPress]'
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: faff3e35-b73f-4e5b-8f51-56565d4b9173
     m_ActionName: 'Player/Rollerblades[/DualShock4GamepadHID/leftShoulder]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 5caeef7d-9ec5-4610-89c0-aee4fa182c09
+    m_ActionName: 'Player/Attack[/DualShock4GamepadHID/buttonWest]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: f32cd90d-7a82-4fc8-ab87-d5908b8e90e9
+    m_ActionName: 'Player/Quit[/Keyboard/escape,/DualShock4GamepadHID/start]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Camera
@@ -531,7 +528,7 @@ MonoBehaviour:
   mouseSensitivity: 0.5
   controllerSensitivity: 200
   timeUntilFollow: 2
-  rotationLimitY: {x: -15, y: 70}
+  rotationLimitY: {x: -15, y: 30}
   autoRotYTarget: 0
   lerpSpeed: 1
   smartCamera: 1
@@ -1025,7 +1022,7 @@ GameObject:
   - component: {fileID: 7537503692537485336}
   - component: {fileID: 1461773413147534411}
   - component: {fileID: 5206052733167645686}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PlayerShadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1041,7 +1038,7 @@ Transform:
   m_GameObject: {fileID: 3823125127281850933}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.342, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.15, y: 0.15, z: 0.15}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -1116,6 +1113,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   raycastOrigin: {fileID: 2919226306402649633}
+  groundTolerance: 0.01
 --- !u!1 &3849597517223215573
 GameObject:
   m_ObjectHideFlags: 0
@@ -1443,6 +1441,54 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &4872316577478966645
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8370181340419652821}
+  - component: {fileID: 5904778151055141359}
+  m_Layer: 0
+  m_Name: CameraRay
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8370181340419652821
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4872316577478966645}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.2164396, y: 0, z: 0, w: 0.97629607}
+  m_LocalPosition: {x: 0, y: 0.88, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3196479841455316505}
+  m_LocalEulerAnglesHint: {x: 25, y: 0, z: 0}
+--- !u!114 &5904778151055141359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4872316577478966645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff01ffa19b55b4e4083843b4750940a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rayBackwardDistance: 3.8
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 1024
 --- !u!1 &5095711325855792998
 GameObject:
   m_ObjectHideFlags: 0
@@ -1728,8 +1774,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.45, y: 0.075, z: 0.3}
-  m_Center: {x: 0, y: 0, z: -0.05}
+  m_Size: {x: 0.3, y: 0.08, z: 0.3}
+  m_Center: {x: 0, y: -0.007331144, z: -0.04972738}
 --- !u!114 &7610744944032355890
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1973,7 +2019,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2626227456173493478}
   m_Layer: 7
-  m_Name: AttackOrigin
+  m_Name: ActionOrigin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1988,7 +2034,7 @@ Transform:
   m_GameObject: {fileID: 7396043539957167779}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.35899997, z: 0.24600029}
+  m_LocalPosition: {x: 0, y: 0.35899997, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2133,7 +2179,10 @@ GameObject:
   - component: {fileID: 6978237943482966024}
   - component: {fileID: 4505072006356563058}
   - component: {fileID: 3425295955391240540}
+  - component: {fileID: 9062520187381861697}
   - component: {fileID: 7523210933972626150}
+  - component: {fileID: 8908996458488131955}
+  - component: {fileID: 7217080583790602380}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2150,7 +2199,7 @@ Transform:
   m_GameObject: {fileID: 8158452149087410719}
   serializedVersion: 2
   m_LocalRotation: {x: 0.2164396, y: 0, z: 0, w: 0.97629607}
-  m_LocalPosition: {x: 0, y: 3.5, z: -3.5}
+  m_LocalPosition: {x: 0, y: 2.5, z: -3.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2259,6 +2308,27 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!65 &9062520187381861697
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8158452149087410719}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Size: {x: 0.1, y: 0.1, z: 3}
+  m_Center: {x: 0, y: 0, z: 1}
 --- !u!114 &7523210933972626150
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2271,10 +2341,53 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9807c4c42fba91e48abfefbb43cd03cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  zoomLevels:
-  - {x: 0, y: 3.5, z: -3.5}
-  - {x: 0, y: 2.5, z: -2}
-  - {x: 0, y: 2, z: -1.5}
+  cameraZoomSpeed: 2
+  minZoom: {x: 0, y: 1.5, z: -2}
+  maxZoom: {x: 0, y: 2.5, z: -3.5}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 1024
+  cameraRay: {fileID: 5904778151055141359}
+  cameraParent: {fileID: 3196479841455316505}
+--- !u!114 &8908996458488131955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8158452149087410719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f081322d6e710842bf5ba35047a1431, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!54 &7217080583790602380
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8158452149087410719}
+  serializedVersion: 4
+  m_Mass: 0.0000001
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 1
 --- !u!1 &8616093712396234625
 GameObject:
   m_ObjectHideFlags: 0
@@ -2720,8 +2833,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: 43505d4c-bc7b-4573-9429-5908dd153a99
-    m_ActionName: 'GameControls/Quit[/Keyboard/escape,/DualShock4GamepadHID/start]'
+    m_ActionId: f32cd90d-7a82-4fc8-ab87-d5908b8e90e9
+    m_ActionName: 'Player/Quit[/Keyboard/escape,/DualShock4GamepadHID/start]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -2767,11 +2880,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 2086551367160491263}
-  yOffset: 0.2
+  yOffset: 0.4
   interactMask:
     serializedVersion: 2
     m_Bits: 512
-  interactDistance: 0.6
+  interactDistance: 0.5
+  boxCastSize: {x: 0.1, y: 0.1, z: 0.1}
+  actionOrigin: {fileID: 2626227456173493478}
 --- !u!114 &7452319082888673597
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2814,7 +2929,7 @@ MonoBehaviour:
   boxCastSize: {x: 0.1, y: 0.1, z: 0.1}
   layerMask:
     serializedVersion: 2
-    m_Bits: 631
+    m_Bits: 1655
 --- !u!114 &9078426388554535173
 MonoBehaviour:
   m_ObjectHideFlags: 0
