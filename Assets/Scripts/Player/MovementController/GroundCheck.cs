@@ -15,13 +15,22 @@ public class GroundCheck : MonoBehaviour
     {
         DrawboxCustom.DrawBoxCastBox(transform.position, boxCastSize, quaternion.identity, -transform.up, distance, Color.grey);
     }
-    public bool GroundedCheck(float length = -20f)
+    public bool GroundCheckBool(float length = -20f)
     {
         if (length == -20f) length = distance;
 
         //return Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, length, layerMask);
         return Physics.BoxCast(transform.position + new Vector3(0, 0.1f, 0), boxCastSize, -transform.up, out RaycastHit hit, Quaternion.identity, length, layerMask);
     }
+    public RaycastHit GroundCheckHit(float length = -20f)
+    {
+        if (length == -20f) length = distance;
+
+        //return Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, length, layerMask);
+        Physics.BoxCast(transform.position + new Vector3(0, 0.1f, 0), boxCastSize, -transform.up, out RaycastHit hit, Quaternion.identity, length, layerMask);
+        return hit;
+    }
+
     public float DistanceFromGround(float length = -20f)
     {
         if (length == -20f) length = distance;

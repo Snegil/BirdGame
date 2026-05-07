@@ -5,7 +5,7 @@ public class PlayerStateIdle : ScriptableObject
 {
     public void Idle(GroundCheck groundCheck)
     {
-        if (!groundCheck.GroundedCheck())
+        if (!groundCheck.GroundCheckBool())
         {
             return;
         }

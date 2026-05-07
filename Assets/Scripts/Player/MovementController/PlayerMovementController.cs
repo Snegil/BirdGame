@@ -68,6 +68,7 @@ public class PlayerMovementController : MonoBehaviour
     PlayerStates stateWhenJumpInput;
 
     float distanceFromWaypoint;
+    PlayerFollowGround playerFollowGround;
 
     void Start()
     {
@@ -76,6 +77,7 @@ public class PlayerMovementController : MonoBehaviour
 
         groundCheck = GetComponent<GroundCheck>();
         rb = GetComponent<Rigidbody>();
+        playerFollowGround = GetComponent<PlayerFollowGround>();
     }
 
     void FixedUpdate()
@@ -131,7 +133,7 @@ public class PlayerMovementController : MonoBehaviour
             ChangeState(PlayerStates.Walk);
             return;
         }
-        if (groundCheck.GroundedCheck(0.25f) && !rollerbladeToggle) rb.linearVelocity = Vector3.zero;
+        if (groundCheck.GroundCheckBool(0.25f) && !rollerbladeToggle) rb.linearVelocity = Vector3.zero;
         RotatePlayerWithCamera = false;
         idle.Idle(groundCheck);
     }

@@ -18,7 +18,7 @@ public class ReturnToPlatform : MonoBehaviour
     }
     void FixedUpdate()
     {
-        if (transform.position.y < lastSafePosition.y - 80 && !groundCheck.GroundedCheck(Mathf.Infinity))
+        if (transform.position.y < lastSafePosition.y - 80 && !groundCheck.GroundCheckBool(Mathf.Infinity))
         {
             transform.position = lastSafePosition;
         }
@@ -27,7 +27,7 @@ public class ReturnToPlatform : MonoBehaviour
 
         if (timeUntilCheck > 0) return;
 
-        if (groundCheck.GroundedCheck() && transform.position != lastSafePosition)
+        if (groundCheck.GroundCheckBool() && transform.position != lastSafePosition)
         {
             Vector3 oldLastSafePosition = lastSafePosition;
             lastSafePosition = transform.position;

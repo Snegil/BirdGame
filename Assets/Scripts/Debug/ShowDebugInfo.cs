@@ -9,9 +9,13 @@ public class ShowDebugInfo : MonoBehaviour
     [SerializeField, Header("Amount of frames until updated DebugInfo")]
     float updateRate = 1;
 
+    bool inEditor = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+#if UNITY_EDITOR
+        inEditor = true;
+#endif
         text = GetComponent<TextMeshProUGUI>();
         InvokeRepeating(nameof(DebugInfo), 0, updateRate);
     }
@@ -28,7 +32,7 @@ public class ShowDebugInfo : MonoBehaviour
         debugInfo += "\n<size=25><b><u>SYSTEM INFO</u></b></size>\n";
         debugInfo += "<indent=10px>";
 
-        debugInfo += SystemInfo.deviceName + "\n";
+        debugInfo += inEditor ? "EDITOR" + "\n" : "STANDALONE" + "\n";
         debugInfo += SystemInfo.operatingSystem + " " + RuntimeInformation.OSArchitecture + "\n";
         debugInfo += SystemInfo.processorModel + "\n";
         debugInfo += SystemInfo.graphicsDeviceName + "\n";

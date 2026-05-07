@@ -26,7 +26,7 @@ public class PlayerStateMovement : ScriptableObject
 
         playerModel.transform.LookAt(waypoint);
 
-        if (groundCheck.GroundedCheck(0.1f))
+        if (groundCheck.GroundCheckBool(0.1f))
         {
             // * 10 is only for making the movementSpeed and sprintSpeed numbers not so humongous
             rb.AddForce(10 * Mathf.Clamp(Vector3.Distance(gameObject.transform.position, waypoint.position), 0, 1) * speed * movementDirection);
