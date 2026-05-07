@@ -13,59 +13,61 @@ AvatarMask:
     m_Weight: 1
   - m_Path: Armature
     m_Weight: 1
-  - m_Path: Armature/Back-Lower
+  - m_Path: Armature/gRoot
     m_Weight: 1
-  - m_Path: Armature/Back-Lower/Back-Middle
+  - m_Path: Armature/gRoot/Back-Lower
     m_Weight: 1
-  - m_Path: Armature/Back-Lower/Back-Middle/Back-Middle_end
+  - m_Path: Armature/gRoot/Back-Lower/Back-Middle
     m_Weight: 1
-  - m_Path: Armature/Back-Lower/Back-Upper
+  - m_Path: Armature/gRoot/Back-Lower/Back-Middle/Back-Middle_end
     m_Weight: 1
-  - m_Path: Armature/Back-Lower/Back-Upper/Head
+  - m_Path: Armature/gRoot/Back-Lower/Back-Upper
     m_Weight: 1
-  - m_Path: Armature/Back-Lower/Back-Upper/Head/L-Pupil
+  - m_Path: Armature/gRoot/Back-Lower/Back-Upper/Head
     m_Weight: 1
-  - m_Path: Armature/Back-Lower/Back-Upper/Head/L-Pupil/L-Pupil_end
+  - m_Path: Armature/gRoot/Back-Lower/Back-Upper/Head/L-Pupil
     m_Weight: 1
-  - m_Path: Armature/Back-Lower/Back-Upper/Head/Needle
+  - m_Path: Armature/gRoot/Back-Lower/Back-Upper/Head/L-Pupil/L-Pupil_end
     m_Weight: 1
-  - m_Path: Armature/Back-Lower/Back-Upper/Head/Needle/Needle_end
+  - m_Path: Armature/gRoot/Back-Lower/Back-Upper/Head/Needle
     m_Weight: 1
-  - m_Path: Armature/Back-Lower/Back-Upper/Head/R-Pupil
+  - m_Path: Armature/gRoot/Back-Lower/Back-Upper/Head/Needle/Needle_end
     m_Weight: 1
-  - m_Path: Armature/Back-Lower/Back-Upper/Head/R-Pupil/R-Pupil_end
+  - m_Path: Armature/gRoot/Back-Lower/Back-Upper/Head/R-Pupil
     m_Weight: 1
-  - m_Path: Armature/Back-Lower/L-Femur
+  - m_Path: Armature/gRoot/Back-Lower/Back-Upper/Head/R-Pupil/R-Pupil_end
     m_Weight: 1
-  - m_Path: Armature/Back-Lower/L-Femur/L-Foot
+  - m_Path: Armature/gRoot/Back-Lower/L-Femur
     m_Weight: 1
-  - m_Path: Armature/Back-Lower/L-Femur/L-Foot/L-Toe
+  - m_Path: Armature/gRoot/Back-Lower/L-Femur/L-Foot
     m_Weight: 1
-  - m_Path: Armature/Back-Lower/L-Femur/L-Foot/L-Toe/L-Toe_end
+  - m_Path: Armature/gRoot/Back-Lower/L-Femur/L-Foot/L-Toe
     m_Weight: 1
-  - m_Path: Armature/Back-Lower/R-Femur
+  - m_Path: Armature/gRoot/Back-Lower/L-Femur/L-Foot/L-Toe/L-Toe_end
     m_Weight: 1
-  - m_Path: Armature/Back-Lower/R-Femur/R-Foot
+  - m_Path: Armature/gRoot/Back-Lower/R-Femur
     m_Weight: 1
-  - m_Path: Armature/Back-Lower/R-Femur/R-Foot/R-Toe
+  - m_Path: Armature/gRoot/Back-Lower/R-Femur/R-Foot
     m_Weight: 1
-  - m_Path: Armature/Back-Lower/R-Femur/R-Foot/R-Toe/R-Toe_end
+  - m_Path: Armature/gRoot/Back-Lower/R-Femur/R-Foot/R-Toe
     m_Weight: 1
-  - m_Path: Armature/L-Heel
+  - m_Path: Armature/gRoot/Back-Lower/R-Femur/R-Foot/R-Toe/R-Toe_end
     m_Weight: 1
-  - m_Path: Armature/L-Heel/L-Heel_end
+  - m_Path: Armature/gRoot/L-Heel
     m_Weight: 1
-  - m_Path: Armature/L-PoleTarget
+  - m_Path: Armature/gRoot/L-Heel/L-Heel_end
     m_Weight: 1
-  - m_Path: Armature/L-PoleTarget/L-PoleTarget_end
+  - m_Path: Armature/gRoot/L-PoleTarget
     m_Weight: 1
-  - m_Path: Armature/R-Heel
+  - m_Path: Armature/gRoot/L-PoleTarget/L-PoleTarget_end
     m_Weight: 1
-  - m_Path: Armature/R-Heel/R-Heel_end
+  - m_Path: Armature/gRoot/R-Heel
     m_Weight: 1
-  - m_Path: Armature/R-PoleTarget
+  - m_Path: Armature/gRoot/R-Heel/R-Heel_end
     m_Weight: 1
-  - m_Path: Armature/R-PoleTarget/R-PoleTarget_end
+  - m_Path: Armature/gRoot/R-PoleTarget
+    m_Weight: 1
+  - m_Path: Armature/gRoot/R-PoleTarget/R-PoleTarget_end
     m_Weight: 1
   - m_Path: Body
     m_Weight: 1
@@ -83,13 +85,7 @@ AvatarMask:
     m_Weight: 1
   - m_Path: Legs
     m_Weight: 1
-  - m_Path: Plane
-    m_Weight: 1
-  - m_Path: Tophat
-    m_Weight: 1
-  - m_Path: Ugg-Left
-    m_Weight: 1
-  - m_Path: Ugg-Right
+  - m_Path: Uggs
     m_Weight: 1
   - m_Path: Uggs-Rollerblades
     m_Weight: 1

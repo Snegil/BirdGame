@@ -226,6 +226,7 @@ public class PlayerMovementController : MonoBehaviour
     {
         if (hitGround && isJumping)
         {
+            HitGround(false);
             ChangeState(PlayerStates.Land);
             return;
         }

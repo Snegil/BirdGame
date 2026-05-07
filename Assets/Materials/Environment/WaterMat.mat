@@ -125,7 +125,7 @@ Material:
     - _GlossyReflections: 0
     - _GradientScale: 20
     - _HeightMultiplier: 0
-    - _HeightScale: 10
+    - _HeightScale: 1
     - _Metallic: 0
     - _NoiseScale: 10
     - _NormalMapScale: 4
@@ -147,7 +147,7 @@ Material:
     - _Surface: 0
     - _TimeMultiplier: 0.01
     - _TimeScale: 0.001
-    - _Timescale: 0.01
+    - _Timescale: 0.1
     - _VoronoiAngleOffset: 1
     - _VoronoiDensity: 50
     - _WaveHeightMax: 5000

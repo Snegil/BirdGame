@@ -11,7 +11,8 @@ public class HitGroundEvent : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        //Debug.Log("ENTERED TRIGGER");
+        if (!playerMovementController.IsJumping) return;
+        Debug.Log("HIT GROUND");
         playerMovementController.HitGround(true);
     }
     void OnTriggerExit(Collider other)

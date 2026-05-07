@@ -18,7 +18,7 @@ public class PlayerNormalRotate : MonoBehaviour
     void FixedUpdate()
     {
         //Raycast down to the ground
-        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 20, layerMask))
+        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 1, layerMask))
         {
             //Rotate the player to the normal of the ground
             rb.rotation = Quaternion.Lerp(rb.rotation, Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation, Time.deltaTime * lerpSpeed);
