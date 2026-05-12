@@ -23,6 +23,7 @@ public class PlayerFollowGround : MonoBehaviour
         origin.y += originYOffset;
         if (Physics.Raycast(origin, Vector3.down, out RaycastHit hit, GroundCheckDistance + originYOffset, layerMask))
         {
+            // TODO: Fix that it does not follow the collider if it is a trigger.
             Debug.Log(hit.collider.name);
             rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
             transform.position = new Vector3(transform.position.x, hit.point.y + GroundCheckDistance, transform.position.z);

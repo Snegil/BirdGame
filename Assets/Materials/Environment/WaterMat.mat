@@ -147,7 +147,7 @@ Material:
     - _Surface: 0
     - _TimeMultiplier: 0.01
     - _TimeScale: 0.001
-    - _Timescale: 0.1
+    - _Timescale: 0.05
     - _VoronoiAngleOffset: 1
     - _VoronoiDensity: 50
     - _WaveHeightMax: 5000

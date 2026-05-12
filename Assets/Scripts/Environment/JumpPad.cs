@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class JumpPad : MonoBehaviour
 {
+    private static readonly int ActionHash = Animator.StringToHash("Action");
+
     [SerializeField]
     float jumpPower;
 
@@ -11,9 +13,12 @@ public class JumpPad : MonoBehaviour
     [SerializeField]
     float jumpPadCooldown = 2f;
 
+    Animator animator;
+
     void Start()
     {
         jumpCollider = GetComponent<Collider>();
+        animator = GetComponent<Animator>();
     }
 
     public void OnTriggerEnter(Collider other)
@@ -21,16 +26,16 @@ public class JumpPad : MonoBehaviour
         if (other.GetComponent<Rigidbody>() == null) return;
 
         Rigidbody collisionObjectRB = other.GetComponent<Rigidbody>();
-
-        collisionObjectRB.linearVelocity = new Vector3(0, jumpPower, 0);
+        animator.SetTrigger(ActionHash);
+        collisionObjectRB.AddForce(transform.up * jumpPower);
         StartCoroutine(CooldownRoutine());
     }
 
     IEnumerator CooldownRoutine()
     {
-        jumpCollider.isTrigger = false;
+        jumpCollider.enabled = false;
         yield return new WaitForSeconds(jumpPadCooldown);
-        jumpCollider.isTrigger = true;
+        jumpCollider.enabled = true;
         yield break;
     }
 }
