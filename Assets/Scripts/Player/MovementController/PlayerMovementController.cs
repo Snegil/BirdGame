@@ -55,9 +55,6 @@ public class PlayerMovementController : MonoBehaviour
     [SerializeField]
     GameObject rollerblades;
 
-    [SerializeField]
-    float fasterDownwardforce = 0.2f;
-
     bool jumpButtonPressed = false;
 
     [Space, SerializeField]
@@ -247,12 +244,6 @@ public class PlayerMovementController : MonoBehaviour
             walk.Move(waypoint, gameObject, groundCheck, playerModel, rb);
         }
         RotatePlayerWithCamera = true;
-
-        // FASTER DOWNFORCE
-        if (rb.linearVelocity.y < 0)
-        {
-            rb.linearVelocity = new Vector3(rb.linearVelocity.x, rb.linearVelocity.y * (1 + fasterDownwardforce), rb.linearVelocity.z);
-        }
 
         // IF NOT JUMPING, JUMP
         if (!isJumping)
