@@ -17,7 +17,7 @@ public class FasterDownForce : MonoBehaviour
     void Update()
     {
         // FASTER DOWNFORCE
-        if (rb.linearVelocity.y < 0)
+        if (rb.linearVelocity.y < -1)
         {
             rb.linearVelocity = new Vector3(rb.linearVelocity.x, rb.linearVelocity.y * (1 + fasterDownwardforce), rb.linearVelocity.z);
         }

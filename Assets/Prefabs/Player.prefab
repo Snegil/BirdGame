@@ -134,7 +134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e202812c08920045877722862fb897b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouseSensitivity: 0.5
+  mouseSensitivity: 5
   controllerSensitivity: 200
   timeUntilFollow: 2
   rotationLimitY: {x: -15, y: 30}
@@ -718,6 +718,7 @@ GameObject:
   - component: {fileID: 375405790104627957}
   - component: {fileID: 6616006341059506093}
   - component: {fileID: 6053639719406711841}
+  - component: {fileID: 3122524867097998340}
   - component: {fileID: 7452319082888673597}
   - component: {fileID: 1183916188170176069}
   - component: {fileID: 9078426388554535173}
@@ -958,6 +959,19 @@ MonoBehaviour:
   interactDistance: 0.5
   boxCastSize: {x: 0.1, y: 0.1, z: 0.1}
   actionOrigin: {fileID: 2626227456173493478}
+--- !u!114 &3122524867097998340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8779370472381099384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3978fbe853a92f4dae77ee5f4ea9ab8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fasterDownwardforce: 0.05
 --- !u!114 &7452319082888673597
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -982,7 +996,6 @@ MonoBehaviour:
   rollerbladeCD: 5
   uggs: {fileID: 4124719387282278786}
   rollerblades: {fileID: 3895968049157194434}
-  fasterDownwardforce: 0.05
   animator: {fileID: 6770246883864399575}
 --- !u!114 &1183916188170176069
 MonoBehaviour:
